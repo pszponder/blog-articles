@@ -1,20 +1,22 @@
 # JavaScript: Functions
 
-# What is a Function and Why Should You Use It?
+# What is a Function and Why Should You Use It?:
 
-# Defining a Function (function declarations)
+## Using the Return Statement:
 
-## Parameters vs Arguments in Functions
+# Defining a Function (function declarations):
 
-# Calling a Function
+## Parameters vs Arguments in Functions:
 
-# Anonymous Functions
+# Calling a Function:
 
-# Function Expressions
+# Anonymous Functions:
 
-# Arrow Functions
+# Function Expressions:
 
-# IIFE (Immediately Invoked Function Expression)
+# Arrow Functions:
+
+# IIFE (Immediately Invoked Function Expression):
 
 # References
 
