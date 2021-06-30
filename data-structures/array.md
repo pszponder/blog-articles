@@ -1,14 +1,14 @@
 # Data Structures in JS: Arrays
 
-## Data Structures
+# Data Structures:
 
 This series of blogs will discuss various data structures in the context of JavaScript. Data structures are different ways to organize data to solve different types of problems.
 
-## What is an Array?
+# What is an Array?:
 
 Officially, arrays are "list-like objects". An array is a data structure that stores an **ordered** collection of values.
 
-### Properties of an Array:
+## Properties of an Array:
 
 - The array holds a collection of values
   - This allows us to organize multiple values and assign them to one variable
@@ -35,13 +35,13 @@ let myArray = [
 ];
 ```
 
-## How to Create an Array
+# How to Create an Array:
 
 There are 2 common ways of creating an array, using bracket notation and by calling the `Array()` constructor function.
 
 **NOTE:** Each item in the array is referred to as an "element".
 
-### Creating an Array Literal Using Square Brackets
+## Creating an Array Literal Using Square Brackets:
 
 This is the most common way of creating an array. To create an array using square brackets, define a variable and on the right hand side of the assignment operator, add all of the values you wish to hold in the array in between square brackets, separated by commas.
 
@@ -58,7 +58,7 @@ let myArray4 = [1, 2, 3, favoriteNum];
 
 **NOTE:** If the word "array literal" caught you off guard, take a look at the MDN resources I referenced in the resources section on literals and array literals. Just know that from a practical and functional standpoint, array literals and arrays are the same thing.
 
-### Creating an Array using the Array() Constructor Function
+## Creating an Array using the Array() Constructor Function:
 
 To create an array using the `Array()` constructor, set a variable equal to `new Array()` with the list of values you want to store in the array inside the brackets of the `Array()` constructor.
 
@@ -68,7 +68,7 @@ Example of creating arrays using the `Array()` constructor method:
 let myArray = new Array(1, 2, 3, 4, 5);
 ```
 
-## How to Access Elements in an Array
+# How to Access Elements in an Array:
 
 In order to access an element in an array, we add a set of square brackets to the end of the array name and inside the brackets, add the index value of the array element we want to access. Remember that array indexes start at 0 in JS so the first element in the array will be at the 0th index.
 
@@ -88,7 +88,9 @@ console.log(myArray[2]); // "C"
 console.log(myArray[3]);
 ```
 
-## How to Reassign Elements in an Array
+## Accessing multi-dimensional arrays
+
+# How to Reassign Elements in an Array:
 
 In order to reassign or modify elements in an array, we access the current value of the desired element in the array and use the assignment operator to change its value.
 
@@ -115,17 +117,17 @@ myArray[2] = 3;
 console.log(myArray); // [1, 2, 3]
 ```
 
-## Adding and Removing Elements at the End of an Array
+# Adding and Removing Elements at the End of an Array:
 
 There are different strategies and methods (functions) that can be used to add or remove elements in an array depending on where they are located within the array.
 
 **NOTE:** From a computational standpoint, it is easiest and least intensive to remove or add elements to the end of an array. It takes the most time to remove or add an element to the front of the array because the indexes of all the elements in the array then need to be changed to account for the removal or addition of a new element. In the case of adding and removing elements from the back of the array, none of the other elements in the array need to change their index.
 
-### Using square brackets to append to the end of the array
+## Using square brackets to append to the end of the array:
 
 You can use the reassignment process to actually add to the end of the array.
 
-**NOTE:** It is HIGHLY recommended to use the .push() method instead of this way to append elements to the end of the array. Appending values to the end of the array by reassignment at a non-existing current index can lead to some weird results.
+**NOTE:** It is HIGHLY recommended to use the .push() method instead of this way to append elements to the end of the array.
 
 ```js
 // Define an array literal using bracket notation
@@ -141,7 +143,7 @@ console.log(myArray);
 // ["A", "B", "C", empty × 2, "E"] (from web console)
 ```
 
-### .push() to append an element to the end of an array
+## .push() to append an element to the end of an array:
 
 Use the `push()` method to append 1 or more elements to the end of an array.
 
@@ -173,7 +175,7 @@ console.log(myArray.push(3)); // 11
 console.log(myArray.push(4, 5, 6)); // 14
 ```
 
-### .pop() to remove an element from the end of an array
+## .pop() to remove an element from the end of an array:
 
 The `pop()` method removes the **LAST** element in the array and returns the value of the element which was removed.
 
@@ -197,9 +199,9 @@ console.log(myArray.pop()); // 3
 console.log(myArray); // [1, 2]
 ```
 
-## Adding and Removing Elements at the Beginning of an Array
+# Adding and Removing Elements at the Beginning of an Array:
 
-### .shift() to remove an item from the start of an array
+## .shift() to remove an item from the start of an array:
 
 The `shift()` method removes the first element in an array and returns the value of the returned element.
 
@@ -216,7 +218,7 @@ console.log(myArray.shift()); // B
 console.log(myArray); // ["C"]
 ```
 
-### .unshift() to add an item to the beginning of an array
+### .unshift() to add an item to the beginning of an array:
 
 The `unshift()` method adds one (or more) elements to the beginning of the array and returns the new length of the array.
 
@@ -237,9 +239,82 @@ console.log(myArray.unshift(99)); // 8
 console.log(myArray); // [99, 1, 2, 3, "Z", "A", "B", "C"];
 ```
 
-## Adding and Removing Elements inside an Array
+# Adding, Removing and Replacing Elements inside an Array using splice():
 
-## How to Obtain the Index of an Element in an Array
+The `splice()` method can be used to add, remove and replace elements inside an array starting at a given index. For more information on the `splice()` method, review the [MDN documentation on splice()](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/splice).
+
+To help with explaining how to use `splice()`, review the syntax and explanation of the parameters below taken from the MDN web page:
+
+```
+splice(start)
+splice(start, deleteCount)
+splice(start, deleteCount, item1)
+splice(start, deleteCount, item1, item2, itemN)
+```
+
+- start: This is the index of the element in the array where you want to start either adding, removing or replacing elements in the array. Basically, it's your starting point.
+- deleteCount: This is the number of elements you want to delete/remove to the right of the start index. If you do not want to remove any elements in the array, just add elements, set the value of deleteCount to `0`.
+- item1, item2, ... itemN: This is the elements that will insert or replace into the array using the `splice()` method.
+
+The `splice()` method returns an array containing all of the elements which were removed from the array which `splice()` operated on. If no elements were removed, an empty array will be returned.
+
+## Adding Elements inside an Array using splice():
+
+To add elements inside an array using the `splice()` method, you need to input the starting index, set the 2nd parameter (deleteCount) to 0, and then input as many elements as you wish to put inside the array using the splice method.
+
+**NOTE:** If you want to add elements in between 2 existing elements in the array (say "a" and "b"), make sure your start index in the splice() method represents the current index of the element which will be to the right of the insertion ("b" in this example). This is because the way `splice()` works, it inserts at the start index. So whatever is currently at the start index gets pushed over to the right when performing element insertion.
+
+```js
+// Initialize an array
+let myArray = ["a", "b", "c", "d"];
+console.log(myArray); // ["a", "b", "c", "d"]
+
+// add a number in between "c" and "d".
+myArray.splice(3, 0, 1);
+console.log(myArray); // ["a", "b", "c", 1, "d"]
+
+// add 2 additional numbers in between 1 and "d"
+myArray.splice(4, 0, 2, 3);
+console.log(myArray); // ["a", "b", "c", 1, 2, 3, "d"]
+```
+
+## Removing Elements inside an Array using splice():
+
+To remove elements inside an array using `splice()`, set the deleteCount parameter (2nd parameter) to 1 or more depending on how many elements you wish to remove. You still set the start index to where you wish to start your deletion from. Don't put in a third parameter if you only want to delete elements in an array using `splice()`.
+
+```js
+// Initialize an array
+let myArray = ["a", "b", "c", "d"];
+console.log(myArray); // ["a", "b", "c", "d"]
+
+// Remove "b" from the array
+myArray.splice(1, 1);
+console.log(myArray); // ["a", "c", "d"]
+
+// Remove "c" and "d" from the array
+myArray.splice(1, 2);
+console.log(myArray); // ["a"]
+```
+
+## Replacing Elements inside an Array using splice():
+
+Replacing elements inside an array using the `splice()` method is essentially a combination of adding and removing elements in an array. Set the value of the start index to where you want to start your replacement, set the 2nd parameter (deleteCount) to how many elements you wish to remove from the current array. Then as a third+ parameter, add either one or more elements which you wish to insert into the array.
+
+```js
+// Initialize an array
+let myArray = ["a", "b", "c", "d"];
+console.log(myArray); // ["a", "b", "c", "d"]
+
+// Replace "b" in the array with 1
+myArray.splice(1, 1, 1);
+console.log(myArray); // ["a", 1, "c", "d"]
+
+// Replace "d" in the array with 2 and 3
+myArray.splice(3, 1, 2, 3);
+console.log(myArray); // ["a", 1, "c", 2, 3]
+```
+
+# How to Obtain the Index of an Element in an Array using .indexOf():
 
 There will be occasions where you will want to search an array and identify the index of a specific element. You can do this using the `indexOf()` method. Note that if there are multiple instances of the same value in the array, the `indexOf()` method will only return the index of the 1st iteration. If `indexOf()` does not find the specified value in the array, it will return `-1`.
 
@@ -292,15 +367,15 @@ console.log(indices);
 // [0, 2, 4]
 ```
 
-## How to Sort Arrays
+# How to Sort Arrays:
 
-## Reversing Arrays
+# Reversing Arrays:
 
-## Looping through Arrays
+# Looping through Arrays:
 
 Several methods exist for looping through the elements in an array. This is a common practice used to access and perform operations on elements in an array.
 
-### for loops
+## for loops:
 
 Use the iterator in the for loop to access all (or some) of the elements in an array. In order for this to call the `length` method on the array to obtain the length of the array and use it as the end condition in the for loop.
 
@@ -356,7 +431,7 @@ One
 */
 ```
 
-### for...of loop
+## for...of loop:
 
 The `for...of` loop works very similar to the standard `for` loop implementation. Instead of using an iterator that then needs to be used to access the element of the array using brackets, each iteration of the `for...of` extracts a consecutive element in the array as the value for that iteration.
 
@@ -384,27 +459,31 @@ Four
 
 **NOTE:** While we will not discuss this here, the `for...of` loop can be used to iterate over any JS type which is considered iterable. Other examples of iterable types in JS (other than arrays) include strings, Map, and Set.
 
-### forEach() method
+## forEach() method:
 
-## Common Array Methods
+The `forEach()` method is a shorthand used to iterate over each element in an array and for each iteration, execute a function.
 
-### .length()
+# Common Array Methods:
 
-### .map()
+## .length()
 
-### .filter()
+## .map()
 
-### .find()
+## .filter()
 
-### .slice()
+## .find()
 
-### .splice()
+## .slice()
 
-### .indexOf()
+## .sort()
 
-### .sort()
+# Less common but neat array methods:
 
-## Resources
+## Array.from()
+
+The `Array.from()` method will convert a list-like iterable object (a NodeList for example) and convert it to an array. This allows you to use all of the array methods on the converted array which can be helpful sometimes.
+
+# Resources:
 
 - [MDN - Array](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array)
 - [MDN - Arrays](https://developer.mozilla.org/en-US/docs/Learn/JavaScript/First_steps/Arrays)

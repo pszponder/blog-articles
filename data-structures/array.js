@@ -1,14 +1,11 @@
 // Initialize an array
-let myArray = ["One", "Two", "Three", "Four"];
+let myArray = ["a", "b", "c", "d"];
+console.log(myArray); // ["a", "b", "c", "d"]
 
-// Return the index of "Two" in the array
-console.log(myArray.indexOf("Two")); // 1
+// Replace "b" in the array with 1
+myArray.splice(1, 1, 1);
+console.log(myArray); // ["a", 1, "c", "d"]
 
-// Return the index of "Four" in the array
-console.log(myArray.indexOf("Four")); // 3
-
-// Return the index of "Five" in the array
-// Note that "Five" is not in the array
-console.log(myArray.indexOf("Five")); // -1
-
-let myArray2 = ["One", "Two", "One", "Three", "One"];
+// Replace "d" in the array with 2 and 3
+myArray.splice(3, 1, 2, 3);
+console.log(myArray); // ["a", 1, "c", 2, 3]
