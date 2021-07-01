@@ -1,11 +1,40 @@
-// Initialize an array
-let myArray = ["a", "b", "c", "d"];
-console.log(myArray); // ["a", "b", "c", "d"]
+// Define a comparison function that will be used
+// to sort the array in ascending order
+function compareAscending(a, b) {
+  // if a > b, return 1
+  // The sort() method will flip the order of a and b
+  if (a > b) {
+    return 1;
+    // Do not flip the order of a and b otherwise
+  } else {
+    return -1;
+  }
+}
 
-// Replace "b" in the array with 1
-myArray.splice(1, 1, 1);
-console.log(myArray); // ["a", 1, "c", "d"]
+// Define a comparison function that will be used
+// to sort the array in descending order
+function compareDescending(a, b) {
+  // if a < b, return 1
+  // The sort() method will flip the order of a and b
+  if (a < b) {
+    return 1;
+    // Do not flip the order of a and b otherwise
+  } else {
+    return -1;
+  }
+}
 
-// Replace "d" in the array with 2 and 3
-myArray.splice(3, 1, 2, 3);
-console.log(myArray); // ["a", 1, "c", 2, 3]
+// Define an array with unsorted numbers
+let unsorted = [5, 1, 7, 3, 10, 9, 2, 4, 6, 8];
+
+// Test the sort() method without the use of comparison function
+console.log("Using sort() method:");
+console.log(unsorted.sort());
+
+// Test the sort() method using the compareAscending function
+console.log("Using sort() method with compareAscending:");
+console.log(unsorted.sort((a, b) => compareAscending(a, b)));
+
+// Test the sort() method using the compareDescending function
+console.log("Using sort() method with compareDescending:");
+console.log(unsorted.sort((a, b) => compareDescending(a, b)));

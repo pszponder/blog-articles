@@ -68,6 +68,20 @@ Example of creating arrays using the `Array()` constructor method:
 let myArray = new Array(1, 2, 3, 4, 5);
 ```
 
+# Obtaining the length of the array using the length property
+
+In order to find out the length of an array, call the `length` property on the array using dot notation. This will return the length of the array which is the number of elements in the array.
+
+```js
+// Create an array
+let myArray = ["a", "b", "c", "d"];
+
+// Create a myArrayLength variable and assign it
+// the value equal to the length of myArray
+let myArrayLength = myArray.length;
+console.log(myArrayLength); // 4
+```
+
 # How to Access Elements in an Array:
 
 In order to access an element in an array, we add a set of square brackets to the end of the array name and inside the brackets, add the index value of the array element we want to access. Remember that array indexes start at 0 in JS so the first element in the array will be at the 0th index.
@@ -89,6 +103,29 @@ console.log(myArray[3]);
 ```
 
 ## Accessing multi-dimensional arrays
+
+Multi-dimensional arrays are arrays that are nested inside other arrays. The most common multi-dimensional array is a 2D array which is an array which contains 1 or more arrays as elements. You can have as many nested arrays as you like (ex. 3D, 4D...).
+
+To access a multi-dimensional array, use as many brackets as there are "dimensions" of the array.
+
+```js
+let myArray = [
+  [1, 2, 3],
+  [4, 5, 6],
+  [7, 8, 9],
+];
+
+// log the 2nd sub-array in myArray
+console.log(myArray[1]); // [4, 5, 6]
+
+// take the 0th element in myArray ([1, 2, 3])
+// and access the 0th element in that sub-array (1)
+console.log(myArray[0][0]); // 1
+
+// take the 3rd element in myArray ([7, 8, 9])
+// and access the 3rd element in that sub-array (9)
+console.log(myArray[2][2]); // 9
+```
 
 # How to Reassign Elements in an Array:
 
@@ -367,7 +404,64 @@ console.log(indices);
 // [0, 2, 4]
 ```
 
-# How to Sort Arrays:
+# How to Sort Arrays using the sort() method:
+
+There is a built-in `sort()` method which can be used to sort the elements in an array.
+
+By default, the `sort()` method iterates over every element in the array, converts the elements in the array to strings and then sorts them in ascending order. This may be fine if you are sorting strings but if you have numbers in the array for example, they will be converted to strings and sorted. The problem with this is that a number converted to a string is sorted by Unicode value, and not by the actual numerical value. So "100" will be sorted before "8" for example.
+
+To properly sort an array of numbers using the `sort()` method, you need to provide it with a comparison function or condition. The comparison function accepts 2 arguments, representing the current element in the iteration as well as the next element in the iteration. Basically, the comparison function accepts 2 adjacent values (typically referred to as "a" and "b") or pairs of elements. If the comparison function returns a value that is greater than 0, then the 2nd element ("b") is sorted before the 1st element ("a"). If the comparison function returns a value <=0, then the current order of the 1st and 2nd element is preserved.
+
+```js
+// Define a comparison function that will be used
+// to sort the array in ascending order
+function compareAscending(a, b) {
+  // if a > b, return 1
+  // The sort() method will flip the order of a and b
+  if (a > b) {
+    return 1;
+    // Do not flip the order of a and b otherwise
+  } else {
+    return -1;
+  }
+}
+
+// Define a comparison function that will be used
+// to sort the array in descending order
+function compareDescending(a, b) {
+  // if a < b, return 1
+  // The sort() method will flip the order of a and b
+  if (a < b) {
+    return 1;
+    // Do not flip the order of a and b otherwise
+  } else {
+    return -1;
+  }
+}
+
+// Define an array with unsorted numbers
+let unsorted = [5, 1, 7, 3, 10, 9, 2, 4, 6, 8];
+
+// Test the sort() method without the use of comparison function
+console.log("Using sort() method:");
+console.log(unsorted.sort());
+
+// Test the sort() method using the compareAscending function
+console.log("Using sort() method with compareAscending:");
+console.log(unsorted.sort((a, b) => compareAscending(a, b)));
+
+// Test the sort() method using the compareDescending function
+console.log("Using sort() method with compareDescending:");
+console.log(unsorted.sort((a, b) => compareDescending(a, b)));
+```
+
+## sort() method shorthand for sorting arrays with numbers
+
+There is a shorthand way to use arrow functions for the `sort()` method to help sort arrays with numbers. You can use arrow functions
+
+```js
+
+```
 
 # Reversing Arrays:
 
@@ -435,6 +529,8 @@ One
 
 The `for...of` loop works very similar to the standard `for` loop implementation. Instead of using an iterator that then needs to be used to access the element of the array using brackets, each iteration of the `for...of` extracts a consecutive element in the array as the value for that iteration.
 
+The drawback to using `for...of` loops is that you cannot access the index of the element as you can with a standard `for` loop or the `forEach()` method (see below for more information on the `forEach()` method).
+
 ```js
 // Initialize an array
 let myArray = ["One", "Two", "Three", "Four"];
@@ -461,21 +557,123 @@ Four
 
 ## forEach() method:
 
-The `forEach()` method is a shorthand used to iterate over each element in an array and for each iteration, execute a function.
+The `forEach()` calls a function for each element in the array starting from the 0th element and up to the last element in the array. The `forEach()` function optionally allows us to access the index of the current element being iterated.
+
+The `forEach()` method does not modify in any way the current element, it returns `undefined`.
+
+All you need to do to call the `forEach()` method on an array is to enter a name for the current element being iterated on (ex. "element") and use arrow-function notation to specify the function or block of code that you want to run for each iteration.
+
+```js
+// Initialize an array
+let myArray = ["a", "b", "c", "d"];
+console.log(myArray); // 4
+
+// Use the forEach() method to log each
+// element in the array to the console
+myArray.forEach((element) => console.log(element));
+
+// Initialize a new array
+let myArray2 = [1, 2, 3, 4, 5];
+console.log(myArray2);
+
+// Use the forEach() method to add 1 to each
+// element in the array and log it to the console
+// Notice that the original values of myArray2 are not changed by the forEach() loop
+myArray2.forEach((element) => {
+  element += 1;
+  console.log(element);
+});
+console.log(myArray2);
+
+// Use the forEach() method to add 1 to each
+// element in the array and log it to the console
+// This time, store element in a new array
+// We can do this because the forEach() method allows us to optionally include the index of the current element
+
+let newArray = [];
+
+myArray2.forEach((element, i) => {
+  element += 1;
+  newArray[i] = element;
+  console.log(element);
+});
+console.log(newArray);
+```
+
+**NOTE:** The function called by the forEach() method is referred to as a callback function because it is a function being called from within another function. If you want to find out more about callback functions, I recommend [this video made by Ania Kubow](https://www.youtube.com/watch?v=cNjIUSDnb9k) as it really helped me understand how callback functions work and how they are invoked.
+
+# Creating a new array from modified elements of an existing array using .map()
+
+The `map()` method is very similar to the `forEach()` method. The only difference between the 2 methods is that `map()` returns a new array while `forEach()` returns `undefined`. Neither method modifies the array they are called on by default.
+
+The `map()` method takes a callback function that performs operations on each element in the array. `map()` then takes those modified values and stores them in a new array which is then returned by the `map` method.
+
+```js
+// Initialize a new array
+let myArray = [1, 2, 3, 4, 5];
+console.log(myArray); // [ 1, 2, 3, 4, 5 ]
+
+// create a new array using the map method which holds the
+//squared values of myArray
+let square = myArray.map((element) => element ** 2);
+console.log(square); // [ 1, 4, 9, 16, 25 ]
+
+// create a new array using the map method which holds the
+// cubed values of myArray
+let cube = myArray.map((element) => {
+  return element ** 3;
+});
+console.log(cube); // [ 1, 8, 27, 64, 125 ]
+```
 
 # Common Array Methods:
 
-## .length()
-
-## .map()
-
 ## .filter()
+
+The `filter()` method uses a callback function or a code block to perform a conditional test on each element in the array. Any element that passes the conditional is then put in a new array by the `filter()` method. The `filter()` method returns the new array with the "filtered" elements. If none of the elements pass the conditional test, an empty array will be returned instead.
+
+The code below shows you multiple different ways of implementing the `filter()` method:
+
+```js
+let myArray = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
+
+// Use the filter method to create an array of even numbers
+// from myArray
+let even = myArray.filter((element) => element % 2 === 0);
+console.log(even);
+
+// Define the isOdd function
+function isOdd(number) {
+  if (number % 2 !== 0) {
+    return number;
+  }
+}
+
+// Use the filter method to create an array of odd elements
+// from myArray by passing in the isOdd() callback function
+let odd = myArray.filter((element) => isOdd(element));
+console.log(odd);
+
+// Use the filter method to create an array of multiples
+// of 3 from myArray by passing in a code block
+let multipleOf3 = myArray.filter((element) => {
+  if (element % 3 === 0) {
+    return element;
+  }
+});
+console.log(multipleOf3);
+
+// Use the filter method to create an array of multiples
+// of 5 from myArray
+let multipleOf5 = myArray.filter((element) => {
+  return element % 5 === 0;
+});
+console.log(multipleOf5);
+```
 
 ## .find()
 
 ## .slice()
-
-## .sort()
 
 # Less common but neat array methods:
 
@@ -489,6 +687,7 @@ The `Array.from()` method will convert a list-like iterable object (a NodeList f
 - [MDN - Arrays](https://developer.mozilla.org/en-US/docs/Learn/JavaScript/First_steps/Arrays)
 - [MDN - Literal](https://developer.mozilla.org/en-US/docs/Glossary/Literal)
 - [MDN - Array Literals](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Grammar_and_types#array_literals)
+- [MDN - Array.prototype.length](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/length)
 - [MDN - Array.prototype.push()](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/push)
 - [MDN - Array.prototype.pop()](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/pop)
 - [MDN - Array.prototype.shift()](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/shift)
@@ -496,6 +695,8 @@ The `Array.from()` method will convert a list-like iterable object (a NodeList f
 - [MDN - for...of](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/for...of)
 - [MDN - Array.prototype.forEach()](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/forEach)
 - [MDN - Array.prototype.indexOf()](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/indexOf)
+- [MDN - Array.prototype.sort()](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/sort)
+- [MDN - Array.prototype.map()](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/map)
 - [Javascript.Info - Arrays](https://javascript.info/array)
 - [Working with Arrays in JavaScript](https://www.digitalocean.com/community/tutorial_series/working-with-arrays-in-javascript)
 
