@@ -457,13 +457,42 @@ console.log(unsorted.sort((a, b) => compareDescending(a, b)));
 
 ## sort() method shorthand for sorting arrays with numbers
 
-There is a shorthand way to use arrow functions for the `sort()` method to help sort arrays with numbers. You can use arrow functions
+There is a shorthand way to use arrow functions for the `sort()` method to help sort arrays with numbers. Instead of writing a comparison function with an if statement like we did in the above example, create a comparison function which accepts 2 inputs (a and b) and returns either the difference of `a - b` or `b-a`. Returning `a-b` will sort the array in ascending order while `b-a` will sort in descending order.
 
 ```js
+// Define an array with unsorted numbers
+let unsorted = [5, 1, 7, 3, 10, 9, 2, 4, 6, 8];
 
+// Sort the unsorted array in ascending order
+let sortedAscending = unsorted.sort((a, b) => a - b);
+// [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
+console.log(sortedAscending);
+
+// Sort the unsorted array in descending order
+let sortedDescending = unsorted.sort((a, b) => b - a);
+// [10, 9, 8, 7, 6, 5, 4, 3, 2, 1]
+console.log(sortedDescending);
 ```
 
 # Reversing Arrays:
+
+Use the `reverse()` method to reverse the order of the elements in an array.
+
+```js
+let myArray = [1, 2, 3, 4, 5];
+console.log(myArray); // [1, 2, 3, 4, 5]
+
+// Reverse myArray
+myArray.reverse();
+console.log(myArray); // [ 5, 4, 3, 2, 1 ]
+
+let myArray2 = ["Hi", "my", "name", "is", "joe"];
+console.log(myArray2); // ["Hi", "my", "name", "is", "joe"]
+
+// Reverse myArray2
+myArray2.reverse();
+console.log(myArray2); // [ 'joe', 'is', 'name', 'my', 'Hi' ]
+```
 
 # Looping through Arrays:
 
@@ -602,7 +631,7 @@ console.log(newArray);
 
 **NOTE:** The function called by the forEach() method is referred to as a callback function because it is a function being called from within another function. If you want to find out more about callback functions, I recommend [this video made by Ania Kubow](https://www.youtube.com/watch?v=cNjIUSDnb9k) as it really helped me understand how callback functions work and how they are invoked.
 
-# Creating a new array from modified elements of an existing array using .map()
+# Creating a new array from modified elements of an existing array using .map():
 
 The `map()` method is very similar to the `forEach()` method. The only difference between the 2 methods is that `map()` returns a new array while `forEach()` returns `undefined`. Neither method modifies the array they are called on by default.
 
@@ -626,9 +655,7 @@ let cube = myArray.map((element) => {
 console.log(cube); // [ 1, 8, 27, 64, 125 ]
 ```
 
-# Common Array Methods:
-
-## .filter()
+# How to remove unwanted elements in an array using .filter():
 
 The `filter()` method uses a callback function or a code block to perform a conditional test on each element in the array. Any element that passes the conditional is then put in a new array by the `filter()` method. The `filter()` method returns the new array with the "filtered" elements. If none of the elements pass the conditional test, an empty array will be returned instead.
 
@@ -671,13 +698,60 @@ let multipleOf5 = myArray.filter((element) => {
 console.log(multipleOf5);
 ```
 
-## .find()
+# How to find the first occurance of a specific element using .find():
 
-## .slice()
+The `find()` method accepts a callback function which performs a test on each element and returns the value of the first element in the array which passes the test.
 
-# Less common but neat array methods:
+```js
+let myArray = [1, 2, 3, 4, 5];
+console.log(myArray); // [1, 2, 3, 4, 5]
 
-## Array.from()
+// Find the first element in the array which is greater than 3
+let itemFound = myArray.find((element) => element > 3);
+console.log(itemFound); // 4
+
+// Set itemFound2 to the first element which is
+// greater than 1 and less than 4 (should be 2)
+let itemFound2 = myArray.find((element) => {
+  if (element > 1 && element < 4) {
+    return element;
+  }
+});
+console.log(itemFound2); // 2
+```
+
+# Copying an array using .slice():
+
+Use the `slice()` method to copy an array or a portion of the array.
+
+- If called without any parameters, the `slice()` method will create a copy of the whole array.
+- Enter a starting index as the first parameter of `slice()` if you want to make a copy of only a portion of the array, starting from the specified index.
+- You can also control where you want stop `slice()` from copying by entering a 2nd parameter which is the stop index.`slice()` will copy everything up to **BUT NOT INCLUDING** the stop index.
+
+```js
+let myArray = [1, 2, 3, 4, 5];
+console.log(myArray); // [1, 2, 3, 4, 5]
+
+// Create a copy of myArray
+let myArrayCopy = myArray.slice();
+console.log(myArrayCopy); // [1, 2, 3, 4, 5]
+
+// Create a copy of the 2nd half of myArray
+// starting from the 2nd index (# 3)
+let myArray2ndHalf = myArray.slice(2);
+console.log(myArray2ndHalf); // [3, 4, 5]
+
+// Create a slice of myArray, only copying
+// elements at index 2 through 4
+let myArraySlice = myArray.slice(1, 4);
+console.log(myArraySlice); // [2, 3, 4]
+```
+
+## How slice() works when copying objects inside an array:
+
+When copying objects in an array using `slice()` a _reference_ to that object is copied. This means that if you change the value of that object in the original or the copied array, the change will be seen in both arrays since both of the arrays point to the same piece of data in memory due to how reference types work.
+
+# Converting list-like iterable objects using Array.from():
 
 The `Array.from()` method will convert a list-like iterable object (a NodeList for example) and convert it to an array. This allows you to use all of the array methods on the converted array which can be helpful sometimes.
 
@@ -697,9 +771,7 @@ The `Array.from()` method will convert a list-like iterable object (a NodeList f
 - [MDN - Array.prototype.indexOf()](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/indexOf)
 - [MDN - Array.prototype.sort()](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/sort)
 - [MDN - Array.prototype.map()](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/map)
+- [MDN - Array.prototype.find()](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/find)
+- [MDN - Array.prototype.reverse()](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/reverse)
 - [Javascript.Info - Arrays](https://javascript.info/array)
 - [Working with Arrays in JavaScript](https://www.digitalocean.com/community/tutorial_series/working-with-arrays-in-javascript)
-
-```
-
-```

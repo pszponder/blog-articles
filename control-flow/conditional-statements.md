@@ -14,7 +14,7 @@ This results in the need to have ways to be able to branch a decision into 2 or 
 
 Conditional statements enable a program to select one out of 2 or more possible execution paths depending on the current conditions.
 
-Loops enable the program to repeat a piece of code for a specified (or unspecified) amount of time.
+Loops on the other hand enable the program to repeat a piece of code for a specified (or unspecified) amount of time.
 
 ## Truthy and Falsy
 
