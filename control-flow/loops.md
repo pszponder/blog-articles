@@ -105,6 +105,8 @@ while (condition) {
 }
 ```
 
+**NOTE**: Technically, you don't need an iterator in order to use a while (or a do...while) loop. However, if you don't use an iterator, you need to have some other way of ensuring that the condition in your while loop eventually evaluates to false, otherwise you will end up with an infinite loop.
+
 Now let's see an example where we loop through an array and print all it's values:
 
 ```js
@@ -208,13 +210,220 @@ console.log("do...while loop ended");
 
 ## break:
 
+The break statement in javascript is used inside a loop to prematurely break out of the loop. These are typically found in if statements and used to aid in the control of the loop.
+
+A particularly useful use for the `break` statement is to break out of an infinite while loop.
+
+If a break statement is found inside a nested (loop within a loop) loop, then the break statement only forces javascript to break out of the inner-most loop containing the break statement.
+
+Examples of using the break statement:
+
+```js
+for (let i = 0; i < 10; i++) {
+  console.log(i);
+  if (i === 3) {
+    break;
+  }
+}
+
+console.log("printing outside for loop");
+
+/*
+Output of code above
+0
+1
+2
+3
+printing outside for loop
+*/
+
+for (let i = 0; i < 5; i++) {
+  console.log("Printing i:", i);
+  for (let j = 0; j < 5; j++) {
+    if (j > 3) {
+      break;
+    }
+    console.log("Printing j:", j);
+  }
+}
+
+/*
+Output of Nested For Loop:
+Printing i: 0
+Printing j: 0
+Printing j: 1
+Printing j: 2
+Printing j: 3
+Printing i: 1
+Printing j: 0
+Printing j: 1
+Printing j: 2
+Printing j: 3
+Printing i: 2
+Printing j: 0
+Printing j: 1
+Printing j: 2
+Printing j: 3
+Printing i: 3
+Printing j: 0
+Printing j: 1
+Printing j: 2
+Printing j: 3
+Printing i: 4
+Printing j: 0
+Printing j: 1
+Printing j: 2
+Printing j: 3
+*/
+
+// You can also use the break statement to break out of an infinite while loop
+
+let counter = 0;
+while (true) {
+  console.log(counter);
+  counter++;
+  if (counter > 5) {
+    break;
+  }
+}
+
+/*
+Output of while loop:
+0
+1
+2
+3
+4
+5
+*/
+```
+
 ## continue:
 
-# Looping through Iterables and Objects in JS with for...in and for...of loops:
+The `continue` statement works similarly to to the `break` statement except that instead of completely breaking out of the loop containing the `continue` statement, `continue` just forces the current loop to start its next iteration, while skipping any additional statements below the `continue` statement.
+
+More specifically, when the `continue` statement is executed, there are 2 possibilities that occur depending on the type of loop the statement is located in:
+
+- For a while loop, `continue` forces the loop to proceed with its next iteration.
+- For a for loop, `continue` forces the loop to update the current iterator and then proceed with the next iteration.
+
+Also similar to the `break` statement, `continue` only works on the inner-most loop which contains the `continue` statement.
+
+```js
+for (let i = 0; i < 5; i++) {
+  if (i === 3) {
+    continue;
+  }
+  console.log(i);
+}
+
+console.log("printing outside for loop");
+
+/*
+Notice how the value of 3 is not printed. This is because
+the if statement triggers and the continue causes
+the console.log(i) to get skipped and the next iteration
+proceeds.
+Output of code above:
+0
+1
+2
+4
+printing outside for loop
+*/
+
+for (let i = 0; i < 5; i++) {
+  console.log("Printing i:", i);
+  for (let j = 0; j < 5; j++) {
+    if (j === 2) {
+      continue;
+    }
+    console.log("Printing j:", j);
+  }
+}
+
+/*
+NOTE: Notice how the number 2 is not being printed
+inside the nested for loop. This is because of the
+continue statement.
+Output of Nested For Loop:
+Printing i: 0
+Printing j: 0
+Printing j: 1
+Printing j: 3
+Printing j: 4
+Printing i: 1
+Printing j: 0
+Printing j: 1
+Printing j: 3
+Printing j: 4
+Printing i: 2
+Printing j: 0
+Printing j: 1
+Printing j: 3
+Printing j: 4
+Printing i: 3
+Printing j: 0
+Printing j: 1
+Printing j: 3
+Printing j: 4
+Printing i: 4
+Printing j: 0
+Printing j: 1
+Printing j: 3
+Printing j: 4
+*/
+```
+
+# Looping through Iterables and Objects in JS with for...of and for...in loops:
+
+## for...of loops:
+
+`for...of` loops are a shorthand way to write a for loop to iterate over all elements in an iterable object. `strings`, `arrays`, `maps` and `sets` are examples of iterable objects in JavaScript. Elements in an array-like object such as a `NodeList` can also be accessed using `for...of`.
+
+When using a `for...of` loop, the iterator which is declared inside the conditional statement of the loop takes on the value of the current element in the iterable being evaluated.
+
+```js
+let myArray = ["a", "b", "c", "d", "e"];
+
+for (let letter of myArray) {
+  console.log(letter);
+}
+
+/*
+Output from for...of array
+a
+b
+c
+d
+e
+*/
+```
 
 ## for...in loops:
 
-## for...of loops:
+`for...in` loops iterate through properties in an object, specifically their keys.
+
+```js
+let myObject = {
+  firstName: "John",
+  lastName: "Doe",
+  age: 50,
+};
+
+for (let property in myObject) {
+  console.log(`${property}: ${myObject[property]}`);
+}
+
+/*
+Output from the for...in loop
+firstName: John
+lastName: Doe
+age: 50
+*/
+```
+
+**NOTE:** While it is possible to use the `for...in` loop to iterate over an array, please only use `for...in` loops to iterate over object properties. `for...in` loops will not necessarily iterate over the array in a specific order.
 
 # References
 
@@ -223,3 +432,6 @@ console.log("do...while loop ended");
 - [MDN - do...while](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/do...while)
 - [MDN - continue](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/continue)
 - [MDN - break](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/break)
+- [MDN - Built-in iterables](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Iteration_protocols#built-in_iterables)
+- [MDN - for...of](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/for...of)
+- [MDN - for...in](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/for...in)
