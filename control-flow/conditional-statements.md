@@ -103,27 +103,27 @@ So what is actually happening "under the hood" when either `&&` or `||` are call
 
 When given an expression to evaluate, both `&&` and `||` will evaluate the left side of the expression to either `true` or `false`. After this, depending if the operator was a Logical AND or OR, either the _original_ left side of the expression is returned or the _original_ right side will be returned. This is referred to `short-circuit evaluation`
 
-`&&` returns the first falsy value / evaluation. If expressions evaluate to truthy, then the right most value is returned.
+`&&` returns the first falsy value / evaluation. If all expressions evaluate to truthy, then the right most value is returned.
 
 ```js
 // 0 (0 is falsy, everything else is ignored)
-console.log(0 && 1 && 2);
+console.log(0 && 1 && 2); // 0
 
 // 0 (1 is truthy, so we look at the next value which is 0,
 // since 0 is falsy, it is returned, and everything else
 // is skipped)
-console.log(1 && 0 && 2);
+console.log(1 && 0 && 2); // 0
 
 // 0 (1 is truthy, and so is 2, so the next value to the right is 0, which is falsy, it is therefore returned)
-console.log(1 && 2 && 0);
+console.log(1 && 2 && 0); // 0
 
 // 3 (everything is truthy, return right most item)
-console.log(1 && 2 && 3);
+console.log(1 && 2 && 3); // 3
 
-// true, (both left and right side of && first evaluate to
+// true, (both left and right sides of && first evaluate to
 // true, since true on both sides of &&, return true
 // (nothing is falsy))
-console.log(1 < 2 && 4 > 3);
+console.log(1 < 2 && 4 > 3); // true
 ```
 
 `||` returns the first truthy value / evaluation. If expressions evaluate to falsy, then the right most value is returned.
@@ -132,23 +132,23 @@ console.log(1 < 2 && 4 > 3);
 // 1 (0 is falsy, so 1 is evaluated next,
 // since 1 is truthy, it is returned and everything else
 // is ignored)
-console.log(0 || 1 || 2);
+console.log(0 || 1 || 2); // 1
 
 // 1 (1 is truthy, so it is returned,
 // everything else is ignored)
-console.log(1 || 0 || 2);
+console.log(1 || 0 || 2); // 1
 
 // 1 (1 is truthy, and so is 2, but since 1 was the 1st
 // truthy value, it is returned, and everything is skipped)
-console.log(1 || 2 || 0);
+console.log(1 || 2 || 0); // 1
 
 // 3 (0 and undefined are both falsy, and 3 is truthy, so
 // 3 is returned)
-console.log(0 || undefined || 3);
+console.log(0 || undefined || 3); // 3
 
 // undefined (since 0, false, and undefined are falsy,
 // the right-most falsy value is returned)
-console.log(0 || false || undefined);
+console.log(0 || false || undefined); // undefined
 ```
 
 **NOTE**: Keep in mind, that the way that short circuit evaluation works is that boolean expressions which use comparison operators are first evaluated, then the short circuit evaluation kicks in and takes over. So anything with a comparison operator will evaluate to either `true` or `false` and that is what the logical AND or OR will return.
@@ -156,11 +156,11 @@ console.log(0 || false || undefined);
 ```js
 // returns true (1 < 2 evaluates to true,
 // so the value of true is returned)
-console.log(1 < 2 || 0);
+console.log(1 < 2 || 0); // true
 
 // returns 0 (1 > 2 evaluates to false, so || returns
 // the right hand side by default, which is 0)
-console.log(1 > 2 || 0);
+console.log(1 > 2 || 0); // 0
 ```
 
 ### Logical NOT (`!`)
@@ -174,9 +174,9 @@ console.log(!false); // true
 
 ## if statement:
 
-The if statement evaluates a condition (what's in the parenthesis). When the condition is evaluated to be `truthy`, the if statement will run the block of code inside its curly braces.
+The `if` statement evaluates a condition (what's in the parenthesis). When the condition is evaluated to be `truthy`, the `if` statement will run the block of code inside its curly braces.
 
-If the condition is evaluated to be `falsy`, the if statement and the contents inside its curly braces are not evaluated and JavaScript moves on with the next statement in the code.
+If the condition is evaluated to be `falsy`, the `if` statement and the contents inside its curly braces are not evaluated and JavaScript moves on with the next statement in the code after the `if` statement's closing curly braces..
 
 ```js
 // The stuff inside the parenthesis is the condition that
@@ -184,7 +184,7 @@ If the condition is evaluated to be `falsy`, the if statement and the contents i
 // curly braces {} will run or not.
 // The condition will either evaluate to be truthy or falsy
 if (true) {
-  console.log("the if statement is has run");
+  console.log("the if statement has run");
 }
 
 if (false) {
@@ -196,7 +196,7 @@ if (false) {
 
 ## if...else statement:
 
-The else portion of the if...else statement is an addition to the if statement.
+The `else` portion of the `if...else` statement is an addition to the if statement.
 
 Basically, when the if statement evaluates to `false`, then the block of code which is part of the `if` statement is skipped an the code in the `else` block will run instead.
 
