@@ -18,6 +18,7 @@ Officially, arrays are "list-like objects". An array is a data structure that st
 - In JS, the array can hold ANY combination of data types at the same time
 - The array data structure is stored in one contiguous block of memory
   - If an element in an array needs to be added, then the whole array may need to be moved to another location in memory to retain the continuous block of memory with the expanded array
+- Arrays are mutable, which means that it's values can be accessed and changed at a later time (even if it is defined using a `const` keyword)
 
 Example of an array containing multiple data types:
 
@@ -33,6 +34,16 @@ let myArray = [
   undefined,
   [100, 200, 300],
 ];
+```
+
+Example of the values of the array being accessed and changed after being declared with a `const` keyword. This demonstrates mutability:
+
+```js
+const myArray = [1, 2, 3, 4, 5];
+console.log(myArray); // [ 1, 2, 3, 4, 5 ]
+
+myArray[0] = 100;
+console.log(myArray); // [ 100, 2, 3, 4, 5 ]
 ```
 
 # How to Create an Array:
@@ -698,7 +709,7 @@ let multipleOf5 = myArray.filter((element) => {
 console.log(multipleOf5);
 ```
 
-# How to find the first occurance of a specific element using .find():
+# How to find the first occurrence of a specific element using .find():
 
 The `find()` method accepts a callback function which performs a test on each element and returns the value of the first element in the array which passes the test.
 
@@ -751,6 +762,29 @@ console.log(myArraySlice); // [2, 3, 4]
 
 When copying objects in an array using `slice()` a _reference_ to that object is copied. This means that if you change the value of that object in the original or the copied array, the change will be seen in both arrays since both of the arrays point to the same piece of data in memory due to how reference types work.
 
+```js
+let myArray = [["a"], { letter: "b" }, "c", "d", "e"];
+let myArrayCopy = myArray.slice();
+
+// [ [ 'a' ], { letter: 'b' }, 'c', 'd', 'e' ]
+console.log("myArray:", myArray);
+
+// [ [ 'a' ], { letter: 'b' }, 'c', 'd', 'e' ]
+console.log("myArrayCopy:", myArrayCopy);
+
+// Change values of the nested object and array in myArray
+myArray[1].letter = "hello";
+myArray[0][0] = 200;
+
+// [ [ 200 ], { letter: 'hello' }, 'c', 'd', 'e' ]
+console.log("myArray:", myArray);
+
+// [ [ 200 ], { letter: 'hello' }, 'c', 'd', 'e' ]
+console.log("myArrayCopy:", myArrayCopy);
+```
+
+In the example above, a copy of `myArray` is made using `splice()`. `myArray` contains a nested array at index 0 and a nested object at index 1. `splice()` creates a shallow copy of any non-primitive variable type (i.e. objects and arrays for example). A shallow copy means that the reference to the value in memory is copied, not the actual value. So both the nested array and nested object in `myArrayCopy` and `myArray` actually point to the same value in memory. This means that when one value is accessed and changed, that change is reflected in both copies.
+
 # Converting list-like iterable objects using Array.from():
 
 The `Array.from()` method will convert a list-like iterable object (a NodeList for example) and convert it to an array. This allows you to use all of the array methods on the converted array which can be helpful sometimes.
@@ -759,6 +793,7 @@ The `Array.from()` method will convert a list-like iterable object (a NodeList f
 
 - [MDN - Array](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array)
 - [MDN - Arrays](https://developer.mozilla.org/en-US/docs/Learn/JavaScript/First_steps/Arrays)
+- [MDN - Mutable](https://developer.mozilla.org/en-US/docs/Glossary/Mutable)
 - [MDN - Literal](https://developer.mozilla.org/en-US/docs/Glossary/Literal)
 - [MDN - Array Literals](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Grammar_and_types#array_literals)
 - [MDN - Array.prototype.length](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/length)
