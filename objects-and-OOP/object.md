@@ -5,6 +5,8 @@ This article is an introduction to my "Objects and OOP in JavaScript" series. In
 # The Object Data Type:
 
 - An object is a collection of key-value pairs.
+  - Objects allow us to group related variables and functions together.
+- The data stored in objects is unordered, meaning that the order in which you enter the data into the object may not the the same order in which the javascript interpreter retrieves the data.
 - An object can contain any type of data (numbers, booleans, strings, arrays, other objects, etc.).
 - The object can also store functions inside of it which can be accessed and called at a later time.
 - Data inside an object is retrieved by referencing the key associated with the particular value we want to access.
@@ -344,19 +346,258 @@ What is happening?
 
 # How to Create an Object:
 
+To create an object, use either object literals or using the new keyword and the Object() constructor function.
+
 ## Using an Object Literal:
+
+To create an object literal (you are "literally" creating the object value) in JavaScript, simply enclose as many (or as little) key-value pairs inside curly braces and assign that to a variable.
+
+````js
+let emptyObject = {};
+
+let myObject = {
+  key1: "value1",
+  key2: "value2",
+  key3: 3,
+  key4: [4, 5, 6],
+};
 
 ## Using the new Object() Constructor Function:
 
-# How to Access Properties and Methods of the Object:
+Use the `new` keyword accompanied by the Object() constructor function to create a new empty object
+
+```js
+let myObject = new Object();
+
+console.log(myObject); // {}
+````
+
+# How to Access and Change Properties and Methods of the Object:
+
+As with object declaration, there are a few ways to access the properties and methods of objects.
+
+Once a property or method is accessed, it can be changed.
+
+You can also add a new property or method to an object by using the methods below.
 
 ## Dot Notation:
 
-## Square Brackets:
+Dot notation can be used to access any property or method of an object. It can also be used to modify or even add properties and objects.
+
+To use dot notation, simply write the name of the object, followed by a dot, followed by the name of the key whose value you want to access (or modify).
+
+Using dot notation with a key name that does not exist will add it and the value which you assign to the object.
+
+```js
+// Initialize a wizard object
+let wizard = {
+  health: 5,
+  type: "magic",
+  specialization: "fire",
+  spells: ["fireball", "conflaguration"],
+  inventory: ["apple", "scroll", "potion"],
+  castSpell: function () {
+    console.log("Wizard casts...", this.spells[1]);
+  },
+};
+
+// Use dot notation to access properties and methods of
+// the object
+console.log(wizard.health); // 5
+console.log(wizard.inventory); // [ 'apple', 'scroll', 'potion' ]
+wizard.castSpell(); // Wizard casts... conflaguration
+
+// Use dot notation change the value of the spells array
+wizard.spells[1] = "fizzle";
+console.log(wizard.spells); // [ 'fireball', 'fizzle' ]
+
+// Use dot notation to add additional properties to the
+// wizard object
+wizard.mana = 20;
+console.log(wizard.mana); // 20
+
+wizard.weapon = "staff";
+console.log(wizard.weapon); // "staff"
+
+// Use dot notation to add additional methods to the
+// wizard object
+wizard.drinkHealthPotion = function () {
+  this.health += 5;
+  console.log("Health has been restored to...", this.health);
+};
+
+// Call the newly added method 2 times
+// watch how the value of the health property is updated
+wizard.drinkHealthPotion(); // Health has been restored to... 10
+wizard.drinkHealthPotion(); // Health has been restored to... 15
+```
+
+## Bracket Notation:
+
+Another way to access, modify or add properties to an object is by using square brackets.
+
+In application, this is very similar to using dot notation but instead of using the dot, use square brackets to encapsulate the name of the property key. You also need to wrap the name of the property in strings.
+
+`object.["keyName"]`
+
+**NOTE:** Bracket notation cannot be used to access or add object methods.
+
+**NOTE 2:** Sometimes you will find that you have to use bracket notation as dot notation does not always work. If for example, you are looping through the properties of an object using a for loop, `object.iterator` will not work because JavaScript will be looking for a key called `iterator` which does not exist, and you will get `undefined`. When you use brackets, JavaScript interprets the value of what is inside as the actual key name. Take a look a the example below.
+
+```js
+// Initialize a wizard object
+let wizard = {
+  health: 5,
+  type: "magic",
+  specialization: "fire",
+  spells: ["fireball", "conflaguration"],
+  inventory: ["apple", "scroll", "potion"],
+};
+
+// Retrieve and log the value of each property
+// of the wizard object using bracket notation
+for (const key in wizard) {
+  console.log(`${key}: ${wizard[key]}`);
+}
+
+// The word "key" inside the brackets is being interpreted
+// as the current key name of the iteration
+// (i.e. health, type, specialization, etc.)
+// Results of running above for loop:
+/*
+health: 5
+type: magic
+specialization: fire
+spells: fireball,conflaguration
+inventory: apple,scroll,potion
+ */
+
+// Retrieve and log the value of each property
+// of the wizard object using dot notation
+for (const key in wizard) {
+  console.log(`${key}: ${wizard.key}`);
+}
+
+// Notice how all the values are undefined
+// This is because JavaScript is looking for a key
+// named "key" but it does not exist, so we get
+// a value of `undefined` returned instead
+// Results of running above for loop:
+/*
+health: undefined
+type: undefined
+specialization: undefined
+spells: undefined
+inventory: undefined
+ */
+```
+
+## Should I use dot notation or bracket notation?
+
+Use dot notation unless you have to use bracket notation, such as when using a for loop to access the properties of an object using an iterator.
+
+## Removing an Object's Properties using the delete operator:
+
+The `delete` operator can be used to remove a property from an object.
+
+The delete operator will return `true` if deletion of the specified property was successful and will return `false` otherwise.
+
+```js
+// Initialize a wizard object
+let wizard = {
+  health: 5,
+  type: "magic",
+  specialization: "fire",
+  spells: ["fireball", "conflaguration"],
+  inventory: ["apple", "scroll", "potion"],
+  castSpell: function () {
+    console.log("Wizard casts...", this.spells[1]);
+  },
+};
+
+console.log(wizard);
+// {
+//   health: 5,
+//   type: 'magic',
+//   specialization: 'fire',
+//   spells: [ 'fireball', 'conflaguration' ],
+//   inventory: [ 'apple', 'scroll', 'potion' ],
+//   castSpell: [Function: castSpell]
+// }
+
+console.log(delete wizard.inventory); // returns true
+console.log(delete wizard.castSpell); // returns true
+console.log(wizard);
+// {
+//   health: 5,
+//   type: 'magic',
+//   specialization: 'fire',
+//   spells: [ 'fireball', 'conflaguration' ]
+// }
+```
+
+**NOTE**: There are some technicalities that you should understand about what `delete` can and cannot do. You can see more in the [MDN documentation](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/delete).
+
+- If the property you are trying to remove does not exist, `delete` will still return `true`. This is because the return value of `delete` is based on if the operation was successful, not whether or not a property exists.
+- `delete` only works on properties that belong to the object instance and not ones that exist in the object's prototype chain. So if an object instance has the same property name as a property in the prototype chain and you use `delete` to remove that property from the object instance, the object will just use the property from the prototype instead.
+
+Example of `delete` returning true when trying to delete a property that is not part of the object
+
+```js
+// Initialize a wizard object
+let wizard = {
+  health: 5,
+  type: "magic",
+  specialization: "fire",
+  spells: ["fireball", "conflaguration"],
+  inventory: ["apple", "scroll", "potion"],
+  castSpell: function () {
+    console.log("Wizard casts...", this.spells[1]);
+  },
+};
+
+console.log(delete wizard.vehicles); // returns true
+console.log(delete wizard.pets); // returns true
+```
 
 # Iterating Over an Object's Properties:
 
 ## for...in loop:
+
+Unlike arrays or strings, the object does not have a built in length method so you cannot iterate over an object's properties using a traditional for loop. You can use a `for...in` loop instead to iterate over properties of an object.
+
+The iterator takes on the value of the object's keys and loops through all of the keys in the object. Remember, since objects don't have an order to them, the properties may not be extracted in the same order that they were written in.
+
+```js
+// Initialize a wizard object
+let wizard = {
+  health: 5,
+  type: "magic",
+  specialization: "fire",
+  spells: ["fireball", "conflaguration"],
+  inventory: ["apple", "scroll", "potion"],
+};
+
+for (const property in wizard) {
+  console.log(`${property}: ${wizard[property]}`);
+}
+
+// health: 5
+// type: magic
+// specialization: fire
+// spells: fireball,conflaguration
+// inventory: apple,scroll,potion
+```
+
+### The Problem with using for...in:
+
+The `for...in` method iterates over ALL enumerable properties of an object which are keyed by strings, _including inherited enumerable properties_ [MDN](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/for...in).
+
+## Object.keys():
+
+## Object.values():
+
+# Prototypes:
 
 # Summary:
 
@@ -364,8 +605,12 @@ What is happening?
 
 - [MDN - Primitive](https://developer.mozilla.org/en-US/docs/Glossary/Primitive)
 - [MDN - Mutable](https://developer.mozilla.org/en-US/docs/Glossary/Mutable)
+- [MDN - delete](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/delete)
+- [MDN - for...in](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/for...in)
 - [JavaScript.info - Objects](https://javascript.info/object)
 - [Understanding Objects in JavaScript](https://www.digitalocean.com/community/tutorials/understanding-objects-in-javascript)
 - [How to Use Object Methods in JavaScript](https://www.digitalocean.com/community/tutorials/how-to-use-object-methods-in-javascript)
 - [Programming with Mosh: JavaScript this keyword](https://www.youtube.com/watch?v=gvicrj31JOM)
 - [JavaScript Primitive vs. Reference Values](https://www.javascripttutorial.net/javascript-primitive-vs-reference-values/)
+- [How to Iterate through an object keys and values in JavaScript](https://attacomsian.com/blog/javascript-iterate-objects)
+- [Objects, Prototypes, and Classes in JavaScript](https://attacomsian.com/blog/objects-prototypes-classes-javascript#prototypes)
