@@ -105,6 +105,54 @@ car.startEngine(); // Logs "Vroom" to the console
 car.pressHorn(); // Logs "Beep beep" to the console
 ```
 
+### Method Shorthand:
+
+Instead of declaring an anonymous function, we can actually omit the key-value assignment as well as the function keyword to create an object method using a shorthand technique.
+
+To use the shorthand for declaring an object method, simply write the function name followed directly by parenthesis and then open yp your curly brackets.
+
+```js
+// Initialize a wizard object
+let warrior = {
+  health: 20,
+  specialization: "melee",
+  attacks: ["headbutt", "slash", "chop", "stun"],
+  inventory: ["roast mutton", "sword", "axe"],
+  attack: function () {
+    console.log("Warrior attacks with...", this.attacks[1]);
+  },
+  // Use the method shorthand to define the eat() method
+  eat() {
+    // If roast mutton exists in object's inventory
+    if (this.inventory.indexOf("roast mutton") >= 0) {
+      // Remove roast mutton
+      this.inventory = this.inventory.filter(
+        (element) => element !== "roast mutton"
+      );
+      // Increase health
+      this.health += 10;
+    }
+  },
+};
+
+console.log(warrior);
+/*
+{
+  health: 20,
+  specialization: 'melee',
+  attacks: [ 'headbutt', 'slash', 'chop', 'stun' ],
+  inventory: [ 'roast mutton', 'sword', 'axe' ],
+  attack: [Function: attack],
+  eat: [Function: eat]
+}
+*/
+
+// Call the eat() method which was defined using the shorthand technique
+warrior.eat();
+console.log(warrior.health); // 30
+console.log(warrior.inventory); // [ 'sword', 'axe' ]
+```
+
 ## `this` keyword:
 
 The `this` keyword is used in objects to reference that particular `instance` of the object. When a function with the `this` keyword is used and the function is a method of an object, `this` will refer to the object which the method is being called on.
@@ -372,6 +420,123 @@ let myObject = new Object();
 console.log(myObject); // {}
 ````
 
+# How to Copy and Object using the Spread Operator:
+
+Since objects are reference types, you cannot directly make a "deep copy" of an object by using the equality operator. Trying to do so will result in making 2 objects which reference the same data in memory. This is because when using the assignment operator, the reference to the location in memory where the values are stored are copied, instead of the values actually being copied. Therefore, if the values in either of these 2 objects would change, the change will be visible in both objects.
+
+Example:
+
+```js
+// Initialize myFirstObject object
+let myFirstObject = {
+  greeting: "Hello",
+};
+
+// Create a "shallow copy" of myFirstObject and store
+// it in mySecondObject
+// (mySecondObject points to the same data in memory as
+// myFirstObject)
+let mySecondObject = myFirstObject;
+
+// Add a property to mySecondObject
+// Since mySecondObject is a shallow copy, myFirstObject will
+// also reference the sayGoodbye property
+mySecondObject.sayGoodbye = "Bye!";
+
+console.log(`myFirstObject:`, myFirstObject);
+// myFirstObject: { greeting: 'Hello', sayGoodbye: 'Bye!' }
+
+console.log(`mySecondObject:`, mySecondObject);
+// mySecondObject: { greeting: 'Hello', sayGoodbye: 'Bye!' }
+```
+
+In order to make a `deep copy` of an object which stores its own copy of all of the values of a copied object, we have to use the spread operator.
+
+The spread operator consists of three dots `...` and works on arrays, strings, objects, and other iterables in JavaScript. The spread operator basically destructures / unpacks the contents of whatever it is called on so that they can be used to create copies using literal expressions such as object literals and string literals.
+
+```js
+// Initialize myFirstObject object
+let myFirstObject = {
+  greeting: "Hello",
+};
+
+// Create a "deep copy" of myfirstObject using the spread operator
+// myThirdObject stores copies of the key-value pairs of myFirstObject
+let myThirdObject = { ...myFirstObject };
+
+// Add a property to myThirdObject
+// Since myThirdObject is a deep copy, myFirstObject will NOT contain this property
+myThirdObject.sayGoodbye = "Bye!";
+
+console.log(`myFirstObject:`, myFirstObject);
+// myFirstObject: { greeting: 'Hello' }
+
+console.log(`myThirdObject:`, myThirdObject);
+// myThirdObject: { greeting: 'Hello', sayGoodbye: 'Bye!' }
+```
+
+**NOTE 1**: Keep in mind that the spread operator only copies one level down. So if you have a nested object for example, the properties of the copied nested object will still be a reference to the values of the nested object from the original object.
+
+```js
+// Initialize myFirstObject object
+let myFirstObject = {
+  greeting: "Hello",
+  nestedObject: { nestedObjectKey: "nested object value" },
+};
+
+// Create a "deep copy" of myfirstObject using the spread operator
+// myThirdObject stores copies of the key-value pairs of myFirstObject
+let myThirdObject = { ...myFirstObject };
+
+// Change the value of the nestedObject
+// This value is a reference value
+myThirdObject.nestedObject.nestedObjectKey =
+  "I changed the nested object value";
+
+console.log(`myFirstObject:`, myFirstObject);
+/*
+myFirstObject: {
+  greeting: 'Hello',
+  nestedObject: { nestedObjectKey: 'I changed the nested object value' }
+}
+*/
+
+console.log(`myThirdObject:`, myThirdObject);
+/*
+myThirdObject: {
+  greeting: 'Hello',
+  nestedObject: { nestedObjectKey: 'I changed the nested object value' }
+}
+*/
+
+// Change the value of the nestedObject property to a string instead of an object
+// Since this is at the first level, this change will not propagate through both of the objects.
+myThirdObject.nestedObject = "value changed to string from object";
+
+console.log(`myFirstObject:`, myFirstObject);
+/*
+myFirstObject: {
+  greeting: 'Hello',
+  nestedObject: { nestedObjectKey: 'I changed the nested object value' }
+}
+*/
+console.log(`myThirdObject:`, myThirdObject);
+/*
+myThirdObject: {
+  greeting: 'Hello',
+  nestedObject: 'value changed to string from object'
+}
+*/
+```
+
+**NOTE 2**: The spread syntax is also very useful with functions that take in a list of values, such as `Math.max()`. If you had an array of numbers and you wanted to find the max value in that array, you can use the spread operator to "unpack" the values of the array so that they can be read by the .max() method.
+
+```js
+let myArray = [1, 2, 3, 4, 5];
+let max = Math.max(...myArray); // same as writing Math.max(1, 2, 3, 4, 5)
+console.log(max); // returns 5
+```
+
 # How to Access and Change Properties and Methods of the Object:
 
 As with object declaration, there are a few ways to access the properties and methods of objects.
@@ -436,13 +601,39 @@ wizard.drinkHealthPotion(); // Health has been restored to... 15
 
 Another way to access, modify or add properties to an object is by using square brackets.
 
-In application, this is very similar to using dot notation but instead of using the dot, use square brackets to encapsulate the name of the property key. You also need to wrap the name of the property in strings.
+In application, this is very similar to using dot notation but instead of using the dot, use square brackets to encapsulate the name of the property key. You also need to wrap the name of the property in strings unless you are entering an iterator in a loop.
 
-`object.["keyName"]`
+In the example below, we are accessing a property of `myObject` called `keyName` and we retrieve the value of "myValue".
+
+```js
+let myObject = {
+  keyName: "myValue",
+  hello: "world",
+};
+
+console.log(myObject["keyName"]); // Returns "myValue"
+```
+
+When you enter a keyName without quotes to try to access an object's value, JS will actually try to interpret the value of the item placed in brackets and use that value as the key name.
+
+In this 2nd example below, since `keyName` is not wrapped in quotes, JS searches for a value named `keyName` outside of the object and then uses the value assigned to `keyName` as the name of the object property. Since `keyName` is defined as the string `"hello"`, JavaScript accesses the property of the object with a key, `"hello"` which has a value of "world" in `myObject`.
+
+```js
+let myObject = {
+  keyName: "myValue",
+  hello: "world",
+};
+
+let keyName = "hello";
+
+console.log(myObject[keyName]); // Returns "world"
+```
 
 **NOTE:** Bracket notation cannot be used to access or add object methods.
 
 **NOTE 2:** Sometimes you will find that you have to use bracket notation as dot notation does not always work. If for example, you are looping through the properties of an object using a for loop, `object.iterator` will not work because JavaScript will be looking for a key called `iterator` which does not exist, and you will get `undefined`. When you use brackets, JavaScript interprets the value of what is inside as the actual key name. Take a look a the example below.
+
+Another reason why you would use bracket notation is if the key is in the form of a string (ex. `"my key name": value`).
 
 ```js
 // Initialize a wizard object
@@ -494,7 +685,39 @@ inventory: undefined
 
 ## Should I use dot notation or bracket notation?
 
-Use dot notation unless you have to use bracket notation, such as when using a for loop to access the properties of an object using an iterator.
+Use dot notation unless you have to use bracket notation, such as when using a for loop to access the properties of an object using an iterator or if the key name is in the form of a string.
+
+## Accessing object keys using Object.keys():
+
+Using the `Object.keys()` method on an object returns an array containing all of the keys in the object. The keys which are returned as elements in the array are converted to strings.
+
+```js
+let myObject = {
+  key1: 1,
+  key2: "hi",
+  key3: [1, 2, 3],
+  key4: { myKey: "myValue" },
+};
+
+let keys = Object.keys(myObject);
+console.log(keys); // [ 'key1', 'key2', 'key3', 'key4' ]
+```
+
+## Accessing object values using Object.values():
+
+Using the `Object.values()` method on an object returns an array containing all of the values in the object.
+
+```js
+let myObject = {
+  key1: 1,
+  key2: "hi",
+  key3: [1, 2, 3],
+  key4: { myKey: "myValue" },
+};
+
+let values = Object.values(myObject);
+console.log(values); // [ 1, 'hi', [ 1, 2, 3 ], { myKey: 'myValue' } ]
+```
 
 ## Removing an Object's Properties using the delete operator:
 
@@ -593,21 +816,15 @@ for (const property in wizard) {
 
 The `for...in` method iterates over ALL enumerable properties of an object which are keyed by strings, _including inherited enumerable properties_ [MDN](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/for...in).
 
-## Object.keys():
-
-## Object.values():
-
-# Prototypes:
-
-# Summary:
-
 # References:
 
 - [MDN - Primitive](https://developer.mozilla.org/en-US/docs/Glossary/Primitive)
 - [MDN - Mutable](https://developer.mozilla.org/en-US/docs/Glossary/Mutable)
+- [MDN - Spread syntax (...)](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/Spread_syntax)
 - [MDN - delete](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/delete)
 - [MDN - for...in](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/for...in)
 - [JavaScript.info - Objects](https://javascript.info/object)
+- [JavaScript.info - Object methods, "this"](https://javascript.info/object-methods)
 - [Understanding Objects in JavaScript](https://www.digitalocean.com/community/tutorials/understanding-objects-in-javascript)
 - [How to Use Object Methods in JavaScript](https://www.digitalocean.com/community/tutorials/how-to-use-object-methods-in-javascript)
 - [Programming with Mosh: JavaScript this keyword](https://www.youtube.com/watch?v=gvicrj31JOM)
