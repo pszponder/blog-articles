@@ -51,7 +51,6 @@ let myObject = {
   key: value,
   "my-key": value2,
   "this is my key": value3,
-  "
 };
 ```
 
@@ -198,7 +197,7 @@ This may not seem important right now but once we start talking more about objec
 
 **NOTE:** There are actually two different items that the `this` keyword actually represents.
 
-- When `this` is used as part of a method inside the object, it references the object which that method is being called on.
+- When `this` is used as part of a method inside the object, it references the object which that method is being called on. So when we call a method on an object (ex. `myObject.myMethod`), the `this` keyword inside the method references the object that it is being called on.
 - When `this` is called in a function outside of an object (a function which does not belong to the object itself), it references the global `window` object in the browser.
 - Another important note to make is that an object can have a method which references a callback function. That callback function is not necessarily a method of the object itself and use of the `this` keyword in the callback function might actually reference the global window object, not the properties of the object.
 
@@ -275,7 +274,7 @@ So the `reference` refers to the address which points to the location of the obj
 
 `Reference` data types (like objects and arrays) work by storing an address to where the data in memory is located. So when you declare an object or array variable, the data itself is not stored with the variable name, instead, a memory address where the data is located is stored with the variable name.
 
-When a variable with a `reference` type value is copied, the value itself in memory is not copied.Instead, the reference to the value in memory is copied. This results in both variables (original and copied) pointing to the same value in memory, their variables hold "references" to the same value in memory.
+When a variable with a `reference` type value is copied, the value itself in memory is not copied. Instead, the reference to the value in memory is copied. This results in both variables (original and copied) pointing to the same value in memory, their variables hold "references" to the same value in memory.
 
 ```js
 // =================================================
@@ -398,13 +397,13 @@ What is happening?
 
 # How to Create an Object:
 
-To create an object, use either object literals or using the new keyword and the Object() constructor function.
+To create an object, use either object literals or using the `new` keyword and the `Object()` constructor function.
 
 ## Using an Object Literal:
 
 To create an object literal (you are "literally" creating the object value) in JavaScript, simply enclose as many (or as little) key-value pairs inside curly braces and assign that to a variable.
 
-````js
+```js
 let emptyObject = {};
 
 let myObject = {
@@ -413,16 +412,17 @@ let myObject = {
   key3: 3,
   key4: [4, 5, 6],
 };
+```
 
 ## Using the new Object() Constructor Function:
 
-Use the `new` keyword accompanied by the Object() constructor function to create a new empty object
+Use the `new` keyword accompanied by the `Object()` constructor function to create a new empty object
 
 ```js
 let myObject = new Object();
 
 console.log(myObject); // {}
-````
+```
 
 # How to Copy and Object using the Spread Operator:
 
@@ -691,38 +691,6 @@ inventory: undefined
 
 Use dot notation unless you have to use bracket notation, such as when using a for loop to access the properties of an object using an iterator or if the key name is in the form of a string.
 
-## Accessing object keys using Object.keys():
-
-Using the `Object.keys()` method on an object returns an array containing all of the keys in the object. The keys which are returned as elements in the array are converted to strings.
-
-```js
-let myObject = {
-  key1: 1,
-  key2: "hi",
-  key3: [1, 2, 3],
-  key4: { myKey: "myValue" },
-};
-
-let keys = Object.keys(myObject);
-console.log(keys); // [ 'key1', 'key2', 'key3', 'key4' ]
-```
-
-## Accessing object values using Object.values():
-
-Using the `Object.values()` method on an object returns an array containing all of the values in the object.
-
-```js
-let myObject = {
-  key1: 1,
-  key2: "hi",
-  key3: [1, 2, 3],
-  key4: { myKey: "myValue" },
-};
-
-let values = Object.values(myObject);
-console.log(values); // [ 1, 'hi', [ 1, 2, 3 ], { myKey: 'myValue' } ]
-```
-
 ## Removing an Object's Properties using the delete operator:
 
 The `delete` operator can be used to remove a property from an object.
@@ -816,9 +784,250 @@ for (const property in wizard) {
 // inventory: apple,scroll,potion
 ```
 
-### The Problem with using for...in:
+**NOTE:** The `for...in` method iterates over ALL enumerable properties of an object which are keyed by strings, _including inherited enumerable properties_ [MDN](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/for...in). The alternative solutions to iterating over object properties do not iterate over inherited properties of the object.
 
-The `for...in` method iterates over ALL enumerable properties of an object which are keyed by strings, _including inherited enumerable properties_ [MDN](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/for...in).
+## Accessing object keys using Object.keys():
+
+Using the `Object.keys()` method on an object returns an array containing all of the keys in the object. The keys which are returned as elements in the array are converted to strings.
+
+```js
+let myObject = {
+  key1: 1,
+  key2: "hi",
+  key3: [1, 2, 3],
+  key4: { myKey: "myValue" },
+  key5: function () {
+    console.log("hello");
+  },
+};
+
+let keys = Object.keys(myObject);
+console.log(keys); // [ 'key1', 'key2', 'key3', 'key4', 'key5' ]
+```
+
+The `Object.keys()` can be used in conjunction with a `for...of` loop to iterate over the keys in an object:
+
+```js
+let myObject = {
+  key1: 1,
+  key2: "hi",
+  key3: [1, 2, 3],
+  key4: { myKey: "myValue" },
+  key5: function () {
+    console.log("hello");
+  },
+};
+
+for (const key of Object.keys(myObject)) {
+  console.log(`${key}: ${myObject[key]}`);
+}
+
+/* Output of code:
+key1: 1
+key2: hi
+key3: 1,2,3
+key4: [object Object]
+key5: function () {
+    console.log("hello");
+  }
+*/
+```
+
+## Accessing object values using Object.values():
+
+Using the `Object.values()` method on an object returns an array containing all of the values in the object.
+
+```js
+let myObject = {
+  key1: 1,
+  key2: "hi",
+  key3: [1, 2, 3],
+  key4: { myKey: "myValue" },
+  key5: function () {
+    console.log("hello");
+  },
+};
+
+let values = Object.values(myObject);
+console.log(values); // [ 1, 'hi', [ 1, 2, 3 ], { myKey: 'myValue' }, [Function: key5] ]
+```
+
+The `Object.values()` can be used in conjunction with a `for...of` loop to iterate over the values in an object:
+
+```js
+let myObject = {
+  key1: 1,
+  key2: "hi",
+  key3: [1, 2, 3],
+  key4: { myKey: "myValue" },
+  key5: function () {
+    console.log("hello");
+  },
+};
+
+for (const value of Object.values(myObject)) {
+  console.log(value);
+}
+
+/* Output of code:
+1
+hi
+[ 1, 2, 3 ]
+{ myKey: 'myValue' }
+[Function: key5]
+*/
+```
+
+**NOTE:** This is typically less useful than the `Object.keys()` method since you can't do much with just the values of the object other than print them out.
+
+## Accessing the keys and values of an object using Object.entries():
+
+The `Object.entries()` method returns an array with nested arrays. Each nested array represents a property of the object. The 1st element of each sub-array is the key of a property and the 2nd element is the value corresponding to the same property.
+
+```js
+let myObject = {
+  key1: 1,
+  key2: "hi",
+  key3: [1, 2, 3],
+  key4: { myKey: "myValue" },
+  key5: function () {
+    console.log("hello");
+  },
+};
+
+let entries = Object.entries(myObject);
+console.log(entries);
+
+/* Output of Code
+[
+  [ 'key1', 1 ],
+  [ 'key2', 'hi' ],
+  [ 'key3', [ 1, 2, 3 ] ],
+  [ 'key4', { myKey: 'myValue' } ],
+  [ 'key5', [Function: key5] ]
+]
+*/
+```
+
+Since the output of `Object.entries()` still provides us with an array, we can use the `for...of` loop to loop through both the keys and values of the object.
+
+```js
+let myObject = {
+  key1: 1,
+  key2: "hi",
+  key3: [1, 2, 3],
+  key4: { myKey: "myValue" },
+  key5: function () {
+    console.log("hello");
+  },
+};
+
+for (const entry of Object.entries(myObject)) {
+  // Each entry represents a property of the object
+  // entry[0] is the key of the current property
+  // entry[1] is the value of the current property
+  console.log(`${entry[0]}: ${entry[1]}`);
+}
+
+/* Output of Code
+key1: 1
+key2: hi
+key3: 1,2,3
+key4: [object Object]
+key5: function () {
+    console.log("hello");
+  }
+*/
+```
+
+### Using Destructuring to Simplify Iteration of keys and values of Objects using Object.entries():
+
+Destructuring syntax uses string or object literals on the left hand side of the assignment operator to destructure and map elements of arrays or properties of objects to new variables.
+
+```js
+// ===================
+// Array Destructuring
+// ===================
+
+// Initialize an array
+const myArray = [1, 2, 3, "hi"];
+
+// Use destructuring to assign the values of myArray to variables
+// The values of myArray are being "unpacked"
+// and each value is mapped to a variable name in the array
+// to the left of the assignment operator
+// the value of 1 is mapped to the variable name "a"
+// the value of 2 is mapped to the variable name "b"
+// the value of 3 is mapped to the variable name "c"
+// the value of "hi" is mapped to the variable name "d"
+
+const [a, b, c, d] = myArray;
+// [a, b, c, d] = [1, 2, 3, "hi"]
+
+// Print the values of the a, b, c, d variables which were
+// assigned using array destructuring
+console.log(`a:`, a); // a: 1
+console.log(`b:`, b); // b: 2
+console.log(`c:`, c); // c: 3
+console.log(`d:`, d); // d: hi
+
+// ====================
+// Object Destructuring
+// ====================
+
+// Initialize an object
+const myObject = {
+  key1: 1,
+  key2: "hi",
+  key3: [1, 2, 3],
+  key4: { myKey: "myValue" },
+  key5: function () {
+    console.log("hello");
+  },
+};
+
+// Destructure the properties of myObject
+// And assign each to their own variable
+// NOTE: For object destrucuring, the variable name
+// must match the key name due to objects not being iterable
+const { key1, key2, key3, key4, key5 } = myObject;
+
+console.log(`key1 =>`, key1); // key1 => 1
+console.log(`key2 =>`, key2); // key2 => hi
+console.log(`key3 =>`, key3); // key3 => [ 1, 2, 3 ]
+console.log(`key4 =>`, key4); // key4 => { myKey: 'myValue' }
+console.log(`key5 =>`, key5); // key5 => [Function: key5]
+```
+
+Now that destructuring makes a little more sense, let's take another look at the example of iterating over the keys and values using the `Object.entries()` method and use destructuring to remap each item in the entry element to a "key" and "value" variable.
+
+```js
+let myObject = {
+  key1: 1,
+  key2: "hi",
+  key3: [1, 2, 3],
+  key4: { myKey: "myValue" },
+  key5: function () {
+    console.log("hello");
+  },
+};
+
+// Use array destructuring to break out a key and value
+// variable for each iteration of the for...of loop
+for (const [key, value] of Object.entries(myObject)) {
+  console.log(`${key}: ${value}`);
+}
+
+/* Output of Code
+key1: 1
+key2: hi
+key3: 1,2,3
+key4: [object Object]
+key5: function () {
+    console.log("hello");
+  }
+*/
+```
 
 # References:
 
@@ -827,6 +1036,7 @@ The `for...in` method iterates over ALL enumerable properties of an object which
 - [MDN - Spread syntax (...)](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/Spread_syntax)
 - [MDN - delete](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/delete)
 - [MDN - for...in](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/for...in)
+- [MDN - Destructuring Assignment](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/Destructuring_assignment)
 - [JavaScript.info - Objects](https://javascript.info/object)
 - [JavaScript.info - Object methods, "this"](https://javascript.info/object-methods)
 - [Understanding Objects in JavaScript](https://www.digitalocean.com/community/tutorials/understanding-objects-in-javascript)
@@ -835,3 +1045,4 @@ The `for...in` method iterates over ALL enumerable properties of an object which
 - [JavaScript Primitive vs. Reference Values](https://www.javascripttutorial.net/javascript-primitive-vs-reference-values/)
 - [How to Iterate through an object keys and values in JavaScript](https://attacomsian.com/blog/javascript-iterate-objects)
 - [Objects, Prototypes, and Classes in JavaScript](https://attacomsian.com/blog/objects-prototypes-classes-javascript#prototypes)
+- [Looping Over Objects - JavaScript Tutorial](https://www.youtube.com/watch?v=tVq4L8tnWuA)
