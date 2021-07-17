@@ -82,15 +82,15 @@ console.log("For loop ended");
 
 1. When the for loop is run for the 1st time, the iterator is set to 0.
 2. The condition is then checked and since 0 is less than myArray.length (5), the condition evaluates to `true`.
-3. Since the condition evaluated to tru, then the code inside the for loop is run once and the first element in the array is printed to the console.
+3. Since the condition evaluated to `true`, then the code inside the for loop is run once and the first element in the array is printed to the console.
 4. After the code inside the loop has executed once, the iterator is incremented from 0 to 1 by `i++`.
 5. After this, the condition is checked again, since 1 is less than the length of the array, the code inside the for loop is run once again and the 2nd value of the array is printed to the console.
 6. After the code runs a second time, the iterator is again increased by 1 so now its value is 2.
-7. The loop of checking the condition, running the code and incrementing the iterator is repeated until the iterator is incremented to the length of the array which is 5. At this point, the condition is no longer true since 5 < 5 is false. This results in the for loop terminating and moving to the next set of code which is "console.log("For loop ended");
+7. The loop of checking the condition, running the code and incrementing the iterator is repeated until the iterator is incremented to the length of the array which is 5. At this point, the condition is no longer true since 5 < 5 is `false`. This results in the for loop terminating and moving to the next set of code which is `console.log("For loop ended")`;
 
 ## while loops:
 
-Unlike for loops, while loops have their iterator initialized outside of the while loop declaration. Also different from the for loop, the incrementing of the iterator does not happen automatically, instead it needs to be specifically declared within the while loop code block, otherwise, the iterator will not increment and the while loop will keep looping forever. This is called an "infinite loop condition". This should be avoided as once you get into an infinite loop, you cannot break out of it from within the code, you will have to manually close or quit out of your program.
+Unlike for loops, while loops have their iterator initialized outside of the while loop declaration. Also different from the for loop, the incrementing of the iterator does not happen automatically, instead it needs to be specifically declared within the while loop code block, otherwise, the iterator will not increment and the while loop will keep looping forever. This is called an `infinite loop condition`. This should be avoided as once you get into an infinite loop, you cannot break out of it from within the code, you will have to manually close or quit out of your program.
 
 Here is the syntax for a while loop:
 
@@ -105,7 +105,56 @@ while (condition) {
 }
 ```
 
-**NOTE**: Technically, you don't need an iterator in order to use a while (or a do...while) loop. However, if you don't use an iterator, you need to have some other way of ensuring that the condition in your while loop eventually evaluates to false, otherwise you will end up with an infinite loop.
+**NOTE**: Technically, you don't need an iterator in order to use a while (or a do...while) loop. However, if you don't use an iterator, you need to have some other way of ensuring that the condition in your while loop eventually evaluates to false, otherwise you will end up with an infinite loop. Instead of using an iterator, you can have an if condition inside your loop that checks if a flag is a certain value and if it is, change the condition in the while loop to evaluate to false.
+
+```js
+// Initialize variable to be printed (and decremented) in loop
+let n = 5;
+
+// Initialize flag to be used in while loop evaluation
+let flag = true;
+
+// Loop while flag evaluates to true
+while (flag) {
+  // Log values to console
+  console.log("Flag is true");
+  console.log(n);
+  n--; // Decrement n
+
+  // Condition that flips flag to false and ends
+  // execution of while loop
+  if (n < -5) {
+    console.log("Flag is false");
+    flag = false;
+  }
+}
+
+/* CODE OUTPUT:
+Flag is true
+5
+Flag is true
+4
+Flag is true
+3
+Flag is true
+2
+Flag is true
+1
+Flag is true
+0
+Flag is true
+-1
+Flag is true
+-2
+Flag is true
+-3
+Flag is true
+-4
+Flag is true
+-5
+Flag is false
+*/
+```
 
 Now let's see an example where we loop through an array and print all it's values:
 
@@ -140,15 +189,15 @@ console.log("while loop ended");
 ```
 
 1. In the example above, we initialize the iterator outside of the while loop and set it's value to 0.
-2. The while loop checks the condition which is `i < myArray.length` and since i is currently 0, the loop will run and print the 1st element in the array as well as increment the iterator which is declared outside the loop.
+2. The while loop checks the condition which is `i < myArray.length` and since `i` is currently 0, the loop will run and print the 1st element in the array as well as increment the iterator which is declared outside the loop.
 3. This is then repeated with the condition of the while loop being checked before the code inside runs.
-4. Once the iterator inside the while loop is incremented to a value 5 which is the same as the length of the array,the condition on the while loop will no longer be true and the while loop will exit and move to the next set of instructions which is to console.log`("while loop ended")`.
+4. Once the iterator inside the while loop is incremented to a value 5 which is the same as the length of the array,the condition on the while loop will no longer be `true` and the while loop will exit and move to the next set of instructions which is to `console.log("while loop ended")`.
 
 ## do...while loops:
 
-Do while loops are very similar to while loops except the checking of the condition happens after the contents inside the loop are executed. This ensures that even if the condition inside the while loop will evaluate to false, the contents inside the loop will run once.
+Do while loops are very similar to while loops except the checking of the condition happens after the contents inside the loop are executed. This ensures that even if the condition inside the while loop will evaluate to `false` right away, the contents inside the loop will run once before the loop exits due to the condition evaluating to `false`.
 
-Syntax of a do...while loop:
+Syntax of a `do...while` loop:
 
 ```js
 // Initialize an iterator which will be used to control
@@ -201,20 +250,20 @@ do {
 console.log("do...while loop ended");
 ```
 
-1. Here, the iterator is also declare outside of the loop and initialized to a starting value of 0.
-2. The code inside the do...while loop is run and the iterator is incremented by 1.
+1. Here, the iterator is also declared outside of the loop and initialized to a starting value of 0.
+2. The code inside the `do...while` loop is run and the iterator is incremented by 1.
 3. The condition in the while loop is then checked. Since 1 is less than the length of the array, the code in the do portion of the loop is run once again.
-4. This cycle of checking the condition and running the code inside the do block is repeated until the condition inside of the while loop is no longer true. At this point, the do...while loop exits and the next section of code is run which is the `console.log("do...while loop ended")`.
+4. This cycle of checking the condition and running the code inside the do block is repeated until the condition inside of the while loop is no longer true. At this point, the `do...while` loop exits and the next section of code is run which is the `console.log("do...while loop ended")`.
 
 # Skipping Iterations and Escaping Out of Loops:
 
 ## break:
 
-The break statement in javascript is used inside a loop to prematurely break out of the loop. These are typically found in if statements and used to aid in the control of the loop.
+The break statement in JavaScript is used inside a loop to prematurely break out of the loop. These are typically found in `if` statements and used to aid in the control of the loop.
 
 A particularly useful use for the `break` statement is to break out of an infinite while loop.
 
-If a break statement is found inside a nested (loop within a loop) loop, then the break statement only forces javascript to break out of the inner-most loop containing the break statement.
+If a `break` statement is found inside a nested (loop within a loop) loop, then the `break` statement only forces JavaScript to break out of the inner-most loop containing the break statement.
 
 Examples of using the break statement:
 
@@ -304,8 +353,8 @@ The `continue` statement works similarly to to the `break` statement except that
 
 More specifically, when the `continue` statement is executed, there are 2 possibilities that occur depending on the type of loop the statement is located in:
 
-- For a while loop, `continue` forces the loop to proceed with its next iteration.
-- For a for loop, `continue` forces the loop to update the current iterator and then proceed with the next iteration.
+- For a `while` loop, `continue` forces the loop to proceed with its next iteration.
+- For a `for` loop, `continue` forces the loop to update the current iterator and then proceed with the next iteration.
 
 Also similar to the `break` statement, `continue` only works on the inner-most loop which contains the `continue` statement.
 
