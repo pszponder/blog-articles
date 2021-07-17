@@ -18,7 +18,7 @@ Officially, arrays are "list-like objects". An array is a data structure that st
 - In JS, the array can hold ANY combination of data types at the same time
 - The array data structure is stored in one contiguous block of memory
   - If an element in an array needs to be added, then the whole array may need to be moved to another location in memory to retain the continuous block of memory with the expanded array
-- Arrays are mutable, which means that it's values can be accessed and changed at a later time (even if it is defined using a `const` keyword)
+- Arrays are mutable, which means that their values can be accessed and changed at a later time (even if they are defined using a `const` keyword)
 
 Example of an array containing multiple data types:
 
@@ -69,7 +69,7 @@ let myArray4 = [1, 2, 3, favoriteNum];
 
 **NOTE:** If the word "array literal" caught you off guard, take a look at the MDN resources I referenced in the resources section on literals and array literals. Just know that from a practical and functional standpoint, array literals and arrays are the same thing.
 
-## Creating an Array using the Array() Constructor Function:
+## Creating an Array using the new keyword and the Array() Constructor Function:
 
 To create an array using the `Array()` constructor, set a variable equal to `new Array()` with the list of values you want to store in the array inside the brackets of the `Array()` constructor.
 
@@ -142,7 +142,7 @@ console.log(myArray[2][2]); // 9
 
 In order to reassign or modify elements in an array, we access the current value of the desired element in the array and use the assignment operator to change its value.
 
-In order to change a value of an element in an array, you need to first know what its index is.
+In order to change a value of an element in an array, you need to first know what its index is. Remember that the 1st element in an array is at index 0 because JavaScript uses a 0-based index system.
 
 ```js
 // Define an array literal using bracket notation
@@ -302,7 +302,7 @@ splice(start, deleteCount, item1, item2, itemN)
 
 - start: This is the index of the element in the array where you want to start either adding, removing or replacing elements in the array. Basically, it's your starting point.
 - deleteCount: This is the number of elements you want to delete/remove to the right of the start index. If you do not want to remove any elements in the array, just add elements, set the value of deleteCount to `0`.
-- item1, item2, ... itemN: This is the elements that will insert or replace into the array using the `splice()` method.
+- item1, item2, ... itemN: These are the element(s) that will be inserted or replaced into the array using the `splice()` method.
 
 The `splice()` method returns an array containing all of the elements which were removed from the array which `splice()` operated on. If no elements were removed, an empty array will be returned.
 
@@ -364,7 +364,7 @@ console.log(myArray); // ["a", 1, "c", 2, 3]
 
 # How to Obtain the Index of an Element in an Array using .indexOf():
 
-There will be occasions where you will want to search an array and identify the index of a specific element. You can do this using the `indexOf()` method. Note that if there are multiple instances of the same value in the array, the `indexOf()` method will only return the index of the 1st iteration. If `indexOf()` does not find the specified value in the array, it will return `-1`.
+There will be occasions where you will want to search an array and identify the index of a specific element. You can do this using the `indexOf()` method. Note that if there are multiple instances of the same value in the array, the `indexOf()` method will only return the index of the 1st occurence of the value. If `indexOf()` does not find the specified value in the array, it will return `-1`.
 
 ```js
 // Initialize an array
@@ -599,7 +599,7 @@ Four
 
 The `forEach()` calls a function for each element in the array starting from the 0th element and up to the last element in the array. The `forEach()` function optionally allows us to access the index of the current element being iterated.
 
-The `forEach()` method does not modify in any way the current element, it returns `undefined`.
+The `forEach()` returns `undefined`.
 
 All you need to do to call the `forEach()` method on an array is to enter a name for the current element being iterated on (ex. "element") and use arrow-function notation to specify the function or block of code that you want to run for each iteration.
 
@@ -788,6 +788,10 @@ In the example above, a copy of `myArray` is made using `splice()`. `myArray` co
 # Converting list-like iterable objects using Array.from():
 
 The `Array.from()` method will convert a list-like iterable object (a NodeList for example) and convert it to an array. This allows you to use all of the array methods on the converted array which can be helpful sometimes.
+
+# Additional Array Methods
+
+There are many more array methods that I have not discussed in this article. If you want to learn more, I suggest looking at the Mozilla Developer Network (see links in resources section). They have great and detailed explanations on all topics in JavaScript.
 
 # Resources:
 
