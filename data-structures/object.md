@@ -1,6 +1,10 @@
-# Objects and OOP in JavaScript: Introduction to Objects
+# Data Structures in JS: Objects
 
-This article is an introduction to my "Objects and OOP in JavaScript" series. In this article, I will be discussing the object data type, what it is, how it is created, how to access it, and how to manipulate it.
+# Data Structures:
+
+This series of blogs will discuss various data structures in the context of JavaScript. Data structures are different ways to organize data to solve different types of problems.
+
+This article is an introduction to objects. I will be discussing the object data type, what it is, how it is created, how to access it, and how to manipulate it.
 
 # The Object Data Type:
 
