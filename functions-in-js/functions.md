@@ -371,6 +371,24 @@ While arrow function syntax looks clean, it cannot be used in all cases due to s
 
 ## IIFE (Immediately Invoked Function Expression):
 
+As the name implies, use an IIFE (Immediately Invoked Function Expression) to invoke an anonymous function expression as soon as it is defined.
+
+To turn an anonymous function expression into an IIFE, wrap the anonymous function expression in parenthesis, and then add an empty set of parenthesis right afterwards, just like you would use to invoke a regular function.
+
+```js
+// IIFE which prints "hi" to the console as soon as code is executed
+(function () {
+  console.log("hi");
+})();
+
+// IIFE which accepts 2 arguments, prints 15 to the console in this case
+(function (a, b) {
+  console.log(5 + 10);
+})(5, 10);
+```
+
+Per the Mozilla Developer Network, IIFEs can be used during program initialization if we just want to temporarily define some variables. As soon as the function finishes running, any variables defined within the function will be garbage collected and will not be part of the global scope helping to reduce the amount of global variables which is generally best practice.
+
 # Function Hoisting:
 
 In a previous article, I spoke about hoisting which is the process that JavaScript uses to bring variable declarations to the top of the code prior to executing it.
@@ -399,7 +417,60 @@ const sayGoodbye = function () {
 
 # Callback Functions
 
-# Method Chaining:
+A callback function is an anonymous function which is defined as a parameter of another function.
+
+You will typically find callback functions in built-in JavaScript functions and methods. For example, a common function which accepts a callback function is the `addEventListener` method in JavaScript.
+
+Lets take an example of the in-built array method `filter`. `filter` accepts a callback function which checks a condition for each element that `filter` is being called on. When JavaScript executes the `filter` function, the filter function will iterate through each element in the array and for each element, it will invoke the callback function.
+
+```js
+// Declare an array of numbers
+const myArray = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
+
+// Filter myArray
+// create an odds array with just the odd numbers in myArray
+// Here, we are using an anonymous arrow function which we
+// declare as a parameter to the filter function
+const odds = myArray.filter((element) => {
+  if (element % 2 !== 0) {
+    return element;
+  }
+});
+
+console.log(odds); // [ 1, 3, 5, 7, 9 ]
+
+// We can also create the callback function outside of the calling function's
+// parameters and just reference the callback function's name in the parameter list
+// of the calling function
+const evenCallback = (element) => {
+  if (element % 2 === 0) {
+    return element;
+  }
+};
+
+// call the evenCallback function inside the filter function
+// NOTICE THAT WE DID NOT INCLUDE THE PARENTHESIS NEXT TO evenCallback INSIDE THE PARAMETER TO .filter
+// THIS IS BECAUSE WE DON'T WANT TO INVOKE THE FUNCTION, THE .filter METHOD WILL INVOKE evenCallback FOR US
+const evens = myArray.filter(evenCallback);
+
+console.log(evens); // [ 2, 4, 6, 8, 10 ]
+```
+
+**NOTE 1:** Notice that I used arrow function syntax to define my callback functions in the above example. You can also use regular function expressions or function declarations to create a callback function.
+
+**NOTE 2:** It is important to understand that when you pass in the name of a callback function as a parameter, you DO NOT want to include parenthesis with the function name. Including parenthesis with the callback function's name as a parameter will force JavaScript to immediately invoke the function at runtime which is not what you want to happen typically.
+
+# Function Methods:
+
+Did you know that functions are actually objects in JavaScript!
+
+Since functions are object, they also have methods that can be called on them. In JavaScript, the built in function methods include .`apply()`, `bind()` and `call()`.
+
+## call
+
+## apply
+
+## call
 
 # References
 
@@ -408,6 +479,10 @@ const sayGoodbye = function () {
 - [MDN - Arrow function expressions](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Functions/Arrow_functions)
 - [MDN - Rest parameters](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Functions/rest_parameters)
 - [MDN - Spread Syntax](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/Spread_syntax)
+- [MDN - IIFE](https://developer.mozilla.org/en-US/docs/Glossary/IIFE)
+- [MDN - Function.prototype.bind()](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Function/bind)
+- [MDN - Function.prototype.apply()](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Function/apply)
+- [MDN - Function.prototype.call()](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Function/call)
 - [Wes Bos - Different Ways to Declare Functions](https://wesbos.com/javascript/02-functions/different-ways-to-declare-functions)
 - [Eloquent JavaScript, 3rd Edition - Chapter 3, Functions](https://eloquentjavascript.net/03_functions.html)
 - [JavaScript.info - Functions](https://javascript.info/function-basics)
