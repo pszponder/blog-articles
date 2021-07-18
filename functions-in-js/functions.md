@@ -192,6 +192,40 @@ In JavaScript, use the rest parameter `...` to allow a function to accept an uns
 
 To use the rest parameter, enter the rest parameter directly followed by an array name as the last parameter in the function declaration or argument. When the rest parameter is used, any additional arguments input into the function call will get stored in an array with the same name which was passed into the rest parameter.
 
+```js
+// Using the rest operator as the 3rd parameter of the product function expression
+const product = (a, b, ...args) => {
+  let prod = a * b;
+
+  if (!args) {
+    return prod;
+  } else {
+    args.forEach((element) => (prod *= element));
+    return prod;
+  }
+};
+
+console.log(product(1, 2, 3, 4, 5)); // 120
+
+// Can also simply use ...args as the only parameter input into the function
+const product2 = (...args) => {
+  return args.reduce((accumulator, currentValue) => accumulator * currentValue);
+};
+
+console.log(product2(1, 2, 3, 4, 5)); // 120
+```
+
+**NOTE:** The rest parameter looks exactly like the spread operator however, they serve two different purposes.
+
+- The spread operator is used to "unpack" an array or other iterable so that the values of the iterable can be used as function arguments.
+  - The spread operator is used when invoking a function.
+  - The spread operator can also be used to make a copy of the properties of an objects or the elements of an array by unpacking the values and then wrapping the unpacked values in either array or object literals.
+- The rest operator is used to "pack" comma separated values which are entered as arguments to a function.
+  - The rest operator is used when creating a function definition or expression.
+- Basically, the spread and rest operators are opposites of each other
+  - Spread "unpacks" the values of an array or object into individual elements.
+  - Rest "packs" individual elements together into a single element (such as an array)
+
 ## Function Best Practices:
 
 Be specific! Every function that you write should only perform one task. If you find that you wrote a function that performs 2 or more tasks (especially if they are unrelated), strongly consider breaking up the function into smaller functions, each which perform only one task. If you write a function called `addTwoNumbers()`, it should only add two numbers, if it does anything else, such as multiplying the two numbers, that should go into another function.
@@ -373,6 +407,7 @@ const sayGoodbye = function () {
 - [MDN - default parameters](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Functions/Default_parameters)
 - [MDN - Arrow function expressions](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Functions/Arrow_functions)
 - [MDN - Rest parameters](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Functions/rest_parameters)
+- [MDN - Spread Syntax](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/Spread_syntax)
 - [Wes Bos - Different Ways to Declare Functions](https://wesbos.com/javascript/02-functions/different-ways-to-declare-functions)
 - [Eloquent JavaScript, 3rd Edition - Chapter 3, Functions](https://eloquentjavascript.net/03_functions.html)
 - [JavaScript.info - Functions](https://javascript.info/function-basics)
