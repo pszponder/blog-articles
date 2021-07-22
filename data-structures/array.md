@@ -306,6 +306,8 @@ splice(start, deleteCount, item1, item2, itemN)
 
 The `splice()` method returns an array containing all of the elements which were removed from the array which `splice()` operated on. If no elements were removed, an empty array will be returned.
 
+**NOTE:** It is important to understand that `splice()` modifies the existing array and since arrays are `reference` types, you need to be careful in case you are not intending to modify the contents of the original array.
+
 ## Adding Elements inside an Array using splice():
 
 To add elements inside an array using the `splice()` method, you need to input the starting index, set the 2nd parameter (deleteCount) to 0, and then input as many elements as you wish to put inside the array using the splice method.
