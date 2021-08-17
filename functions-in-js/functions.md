@@ -20,7 +20,7 @@ function myFuncName(optionalParam1, optionalParam2, ...) {
 
 ## Running a Function:
 
-In order to run or execute the code inside a function, you have to "call" the function (this is sometimes also referred to as "invoking" a function).
+In order to run or execute the code inside a function, you have to "call" the function (this is also referred to as "invoking" a function).
 
 To invoke a function, type the name of the function followed by parenthesis and any required function arguments. When you put the parenthesis after the function name, this tells JavaScript to execute the function.
 
@@ -33,7 +33,7 @@ function sayHello() {
 // Call / Invoke the sayHello function
 sayHello(); // prints "Hello" to the console
 
-// Declare a function that takes in a function parameter
+// Declare a function that takes in a parameter
 function sayWord(word) {
   console.log(word);
 }
@@ -132,8 +132,9 @@ countDown(10);
 
 `Parameters` are placeholder variables that are specified inside the parentheses of a function. These variables are used inside the function. A function can accept zero or more `parameters`.
 
-When a user calls a function, if that function was declared with one or more `parameters`, the user must pass in values to those `parameters`. The values that the user passes in are referred to as function `arguments`. When the `arguments` are passed into the function, JavaScript replaces all instances of the function `parameters` with the value of the `arguments` that the user passed in. When a user passes in an argument to the function, the function is actually copying the value of that argument and uses a copy to run its tasks.
+When a user calls a function, if that function was declared with one or more `parameters`, the user must pass in values to those `parameters`. The values that the user passes in are referred to as function `arguments`. When the `arguments` are passed into the function, JavaScript replaces all instances of the function `parameters` with the value of the `arguments` that the user passed in.
 
+**NOTE:** When a user passes in an argument to the function, the function is actually copying the value of that argument and uses a copy to run its tasks. Keep this in mind because depending on the variable type passed in (primitive or reference), you will either end up making a copy of the value, or a copy of the reference to the value respectively.
 Even though parameters and arguments are written in the same location in the function, they are different.
 
 - `parameters` are placeholder variables written during function declaration
@@ -141,7 +142,7 @@ Even though parameters and arguments are written in the same location in the fun
 
 ## Setting Default Values for Parameters:
 
-In JavaScript, you can set default values for function parameters. What this does is that i the user does not specify a particular argument when calling a function, JavaScript will use the default value assigned to the function parameter during function assignment.
+In JavaScript, you can set default values for function parameters. If the user does not specify a particular argument when calling a function, JavaScript will use the default value assigned to the function parameter during function assignment.
 
 To set a default value to a function parameter, set the parameter equal to a value during the function declaration.
 
@@ -186,6 +187,18 @@ countUp with 1 input:
 */
 ```
 
+**NOTE:** You cannot use default parameters properly if a parameter to the right of the default parameter is not set to a default as well. In the example below, a sum function is made with the parameter `a` having a default of 1. Notice that the 2nd parameter to the `sum` function does not have a default parameter. When the `sum` function is called with only one input parameter, the function assumes that the single argument (2 in the example) is actually the value for the parameter `a`. JavaScript assumes that a value for `b` was never defined and so the resulting input is `NaN`.
+
+```js
+function sum(a = 1, b) {
+  return a + b;
+}
+
+sum(2); // returns NaN
+```
+
+To avoid this situation, when you assign a default parameter, make sure that anything to the right of that parameter, also has a default parameter, so that the values can be properly assigned if the user does not specify them. Another way to think about this is that parameters that don't have a default assigned ALWAYS need to be to the LEFT of any parameters which are assigned a default value.
+
 ## Accepting Extra Parameters with the rest (...) Parameter:
 
 In JavaScript, use the rest parameter `...` to allow a function to accept an unspecified amount of arguments.
@@ -215,7 +228,9 @@ const product2 = (...args) => {
 console.log(product2(1, 2, 3, 4, 5)); // 120
 ```
 
-**NOTE:** The rest parameter looks exactly like the spread operator however, they serve two different purposes.
+### Rest vs. Spread Operators:
+
+The rest parameter looks exactly like the spread operator however, they serve two different purposes.
 
 - The spread operator is used to "unpack" an array or other iterable so that the values of the iterable can be used as function arguments.
   - The spread operator is used when invoking a function.
@@ -228,11 +243,11 @@ console.log(product2(1, 2, 3, 4, 5)); // 120
 
 ## Function Best Practices:
 
-Be specific! Every function that you write should only perform one task. If you find that you wrote a function that performs 2 or more tasks (especially if they are unrelated), strongly consider breaking up the function into smaller functions, each which perform only one task. If you write a function called `addTwoNumbers()`, it should only add two numbers, if it does anything else, such as multiplying the two numbers, that should go into another function.
+Be specific! Every function that you write should only perform one task. If you find that you wrote a function that performs 2 or more tasks (especially if they are unrelated), strongly consider breaking up the function into smaller functions, each which performs only one task. If you write a function called `addTwoNumbers()`, it should only add two numbers, if it does anything else, such as multiplying the two numbers, that should go into another function.
 
-Try to give your functions names that give some detail about what the function does. For example, if you write a function called `sayHello()`, then this probably means that the function will either return or print to the console "Hello".
+Try to give your functions names that give some detail about what the function does. For example, if you write a function called `sayHello()`, then this probably means that the function will either return or print to the console a greeting such as "Hello".
 
-This will help with code readability and maintenance. If for example, you write a function named `sayHello()`.
+This will help with code readability and maintenance.
 
 # Other Ways to Create a Function:
 
@@ -389,6 +404,8 @@ To turn an anonymous function expression into an IIFE, wrap the anonymous functi
 
 Per the Mozilla Developer Network, IIFEs can be used during program initialization if we just want to temporarily define some variables. As soon as the function finishes running, any variables defined within the function will be garbage collected and will not be part of the global scope helping to reduce the amount of global variables which is generally best practice.
 
+You can also wrap your code in an IIFE to prevent the code from being read as any code inside the IFFE will not be accessible y the user.
+
 # Function Hoisting:
 
 In a previous article, I spoke about hoisting which is the process that JavaScript uses to bring variable declarations to the top of the code prior to executing it.
@@ -459,18 +476,6 @@ console.log(evens); // [ 2, 4, 6, 8, 10 ]
 **NOTE 1:** Notice that I used arrow function syntax to define my callback functions in the above example. You can also use regular function expressions or function declarations to create a callback function.
 
 **NOTE 2:** It is important to understand that when you pass in the name of a callback function as a parameter, you DO NOT want to include parenthesis with the function name. Including parenthesis with the callback function's name as a parameter will force JavaScript to immediately invoke the function at runtime which is not what you want to happen typically.
-
-# Function Methods:
-
-Did you know that functions are actually objects in JavaScript!
-
-Since functions are object, they also have methods that can be called on them. In JavaScript, the built in function methods include .`apply()`, `bind()` and `call()`.
-
-## call
-
-## apply
-
-## call
 
 # References
 
