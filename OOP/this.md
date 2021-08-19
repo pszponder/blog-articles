@@ -1,8 +1,12 @@
 # `this` Keyword in JavaScript:
 
+When dealing with objects and functions in JavaScript, you will encounter the `this` keyword. The purpose of this article is to try to explain what `this` is and how it is used.
+
 ## What is `this`?
 
-`this` is a property which refers to the object which `this` is associated with. The association between `this` and the object is context sensitive and refers to what calls `this` during code execution.
+`this` is a keyword which refers to the object which `this` is associated with. The association between `this` and the object is context sensitive and depends to what calls `this` during code execution.
+
+The purpose of `this` is to point to an object so that JavaScript knows which object's properties to access.
 
 ## How does `this` work?
 
@@ -74,8 +78,30 @@ let gollum = {
 gollum.jabber(); // "My precious", jabber's value points to boromir.blabber which points to the talk function. Inside the talk function, "this" refers to gollum since jabber was called on the gollum object so the sound property which this refers to is "My precious"
 ```
 
+Here is an interview question taken from [topal.com](https://www.toptal.com/javascript/interview-questions) regarding the `this` keyword. Can you answer it correctly?
+
+QUESTION: What will the code below output to the console and why?
+
+```js
+const myObject = {
+  foo: "bar",
+  func: function () {
+    let self = this;
+    console.log("outer func: this.foo = " + this.foo);
+    console.log("outer func: self.foo = " + self.foo);
+    (function () {
+      console.log("inner func: this.foo = " + this.foo);
+      console.log("inner func: self.foo = " + self.foo);
+    })();
+  },
+};
+
+myObject.func();
+```
+
 ## Resources:
 
 - [MDN - this](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/this)
 - [FunFunFunction - bind and this - Object Creation in JavaScript P1](https://www.youtube.com/watch?v=GhbhD1HR5vk&list=PL0zVEGEvSaeHBZFy6Q8731rcwk0Gtuxub&index=2)
 - [FunFunFunction - Examples of this and bind - Objec Creation in JavaScript P2](https://www.youtube.com/watch?v=PIkA60I0dKU&list=PL0zVEGEvSaeHBZFy6Q8731rcwk0Gtuxub&index=2)
+- [37 Essential JavaScript Interview Questions](https://www.toptal.com/javascript/interview-questions)
